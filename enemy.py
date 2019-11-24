@@ -7,6 +7,7 @@ class enemy:
     def __init__(self):
         self.value = []
         self.stats = self.readstats()
+        print("enemy init")
 
     def readstats(self):
         f = open("enemy.txt", 'r')
@@ -14,8 +15,8 @@ class enemy:
         f.close()
         for ligne in lignes:
             self.value.append(int(ligne))
-        #print(self.value)
-        return self.value
+        self.stats = self.value
+        return self.stats
 
     def attack(self, damage):
         # rnd to see if we crit
@@ -35,4 +36,12 @@ class enemy:
         self.stats[0] = life_int
         return self.stats[0]
 
+    def dead(self):
+        if self.stats[0] <= 0:
+            return True
+        elif self.stats[0] > 0:
+            return False
+
     #Pareil, faire une fonction heal etc, Fonction commune ?
+
+enemy = enemy()

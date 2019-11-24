@@ -24,9 +24,7 @@ class player:
         self.level = self.stats[8]
         self.power = self.stats[9]
         print(self.stats)'''
-        self.addinventory("potion")
-        self.addinventory("potion")
-        self.removeinventory("potion")
+        print("Player init")
 
     def initname(self):
         print("Name : ")
@@ -74,12 +72,12 @@ class player:
         life = int(self.stats[0])
         life -= int(damage)
         self.stats[0] = life
-        print("after", self.stats[0])
+        print("Player hp : ", self.stats[0])
+
 
     def magical(self):
-        print("Spell =")
+        print("1 : Heal 2 : Damage")
         spell = int(input())
-        print("magical attack")
         # Choix du spell
         if int(self.stats[1]) > 0:
             #Condition pour le lancer
@@ -93,9 +91,14 @@ class player:
                 print("after heal", self.stats[0])
             elif spell == 2 and int(self.stats[1]) >= 10:
                 print("Fireball")
-                mdamage = 5
+                mdamage = 10
                 self.consumeMana(10)
-                self.attack(0)
+                self.attack(mdamage, 0)
+            # Pas assez de mana
+            elif spell == 1 and self.stats[1] < 5:
+                print("not enough mana")
+            elif spell == 2 and self.stats[1] < 10:
+                print("not enough mana")
 
     def healing(self, heal):
         #Heal if player hp < max hp and player hp < heal for example, 33hp/100hp
@@ -129,6 +132,12 @@ class player:
         print("inventory before delete", self.inventory)
         self.inventory.remove(item)
         print("inventory after delete", self.inventory)
+
+    def dead(self):
+        if self.stats[0] <= 0:
+            return True
+        elif self.stats[0] > 0:
+            return False
 
 
 player = player()

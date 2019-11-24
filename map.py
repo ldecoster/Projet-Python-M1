@@ -2,7 +2,7 @@ import numpy as np
 from random import randint
 SIZE = 7
 
-class tab_map:
+class map:
     def __init__(self):
         self.tab_map = []
         room_start, room_end = self.initmap()
@@ -36,4 +36,4 @@ class tab_map:
         room_end = self.tab_map[SIZE-1]
         return room_start, room_end
 
-tab_map = tab_map()
+map = map()
