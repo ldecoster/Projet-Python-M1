@@ -1,16 +1,18 @@
 import numpy as np
 import random
 
-#from Projet.enemy import enemy
+from Projet.enemy import enemy
 
 class player:
     def __init__(self):
         # On peut aussi faire 1 getter pour chaque stats + enlever chaque cast en int (devenu inutile j'ai changé une ligne de code pour tout recuperer directement en int)
+        self.inventory = []
         self.value = []
         self.stats = self.readstats()
         self.maxpv = self.stats[0]
         self.maxmana = self.stats[1]
         #  Not necessary, just to remember which index correspond to which stat
+        # Shield ou armor sera enlevé (les 2 correspondent à la même chose)
         '''self.life = self.stats[0]
         self.mana = self.stats[1]
         self.shield = self.stats[2]
@@ -22,7 +24,9 @@ class player:
         self.level = self.stats[8]
         self.power = self.stats[9]
         print(self.stats)'''
-        self.defense(10)
+        self.addinventory("potion")
+        self.addinventory("potion")
+        self.removeinventory("potion")
 
     def initname(self):
         print("Name : ")
@@ -39,7 +43,7 @@ class player:
         self.stats = self.value
         return self.stats
 
-    def attack(self, damage, magical = 1):
+    def attack(self, damage, magical=1):
         #rnd to see if we crit
         print("before hit", enemy.stats[0])
         rnd_crit = random.randint(1, 100)
@@ -51,6 +55,7 @@ class player:
 
     def defense(self, damage):
         # random to check the defense system
+        print("before", self.stats[0])
         rnd_dodge = random.randint(1, 100)
         rnd_parry = random.randint(1, 100)
         # Parry if
@@ -69,6 +74,7 @@ class player:
         life = int(self.stats[0])
         life -= int(damage)
         self.stats[0] = life
+        print("after", self.stats[0])
 
     def magical(self):
         print("Spell =")
@@ -111,6 +117,18 @@ class player:
     def consumeMana(self, mana):
         self.stats[1] = int(self.stats[1]) - mana
         return self.stats[1]
+
+    # On ajoute un string dans un tableau pour rajouter l'objet
+    def addinventory(self, item):
+        print("inventory before", self.inventory)
+        self.inventory.append(item)
+        print("inventory after", self.inventory)
+
+    # On supprime l'objet du tableau
+    def removeinventory(self, item):
+        print("inventory before delete", self.inventory)
+        self.inventory.remove(item)
+        print("inventory after delete", self.inventory)
 
 
 player = player()

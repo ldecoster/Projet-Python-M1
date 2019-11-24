@@ -1,13 +1,12 @@
 import random
 
-from Projet.player import player
+#from Projet.player import player
 
 
 class enemy:
     def __init__(self):
         self.value = []
         self.stats = self.readstats()
-        self.attack(10)
 
     def readstats(self):
         f = open("enemy.txt", 'r')
@@ -37,5 +36,3 @@ class enemy:
         return self.stats[0]
 
     #Pareil, faire une fonction heal etc, Fonction commune ?
-
-enemy = enemy()
