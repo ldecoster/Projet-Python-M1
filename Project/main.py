@@ -1,4 +1,3 @@
-from Project.Characters.Trader import Trader
+from Project.GameRuntime.Init import beginning
 
-a = Trader()
-print(a.gold)
+beginning()
