@@ -1,4 +1,5 @@
 from Project.Characters.Character import Character
+from Project.Items.LootsInventory import LootsInventory
 import random
 
 
@@ -6,10 +7,11 @@ parry_reduced_damage = 0.7
 equipment_balancing_points = 10
 
 
-class Fighter(Character):
+class Fighter(Character, LootsInventory):
     def __init__(self, gold, level, life_points, max_life_points, equipment_points, dodge_rate, parry_rate,
-                 critical_hit_rate, min_damage, max_damage):
+                 critical_hit_rate, min_damage, max_damage, loots_inventory):
         Character.__init__(self, gold)
+        LootsInventory.__init__(self, loots_inventory)
         self.level = level
         self.life_points = life_points
         self.max_life_points = max_life_points
@@ -59,11 +61,11 @@ class Fighter(Character):
         rnd_parry = random.random()*100
         if rnd_dodge <= self.dodge_rate:
             print("Attack dodged")
-            return
+            actual_damage = 0
         elif rnd_parry <= self.parry_rate:
             print("Attack parry")
-            self.loose_life_points(int((parry_reduced_damage*damage)
-                                       - (self.equipment_points/equipment_balancing_points)))
+            actual_damage = (parry_reduced_damage*damage) - (self.equipment_points/equipment_balancing_points)
         else:
             print("Full attack received")
-            self.loose_life_points(int(damage - (self.equipment_points/equipment_balancing_points)))
+            actual_damage = damage - (self.equipment_points/equipment_balancing_points)
+        self.loose_life_points(int(actual_damage))

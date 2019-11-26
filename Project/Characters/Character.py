@@ -3,11 +3,15 @@ class Character:
         self.gold = gold
 
     def add_gold(self, gold):
+        """Increase the amount of gold"""
+        print("You gained", gold, "golds")
         self.gold += gold
         return True
 
     def withdraw_gold(self, gold):
+        """Decrease the amount of gold if it's possible"""
         if self.gold - gold >= 0:
+            print("You lost", gold, "golds")
             self.gold -= gold
             return True
         else:
