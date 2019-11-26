@@ -1,12 +1,6 @@
 from Project.Items.WeaponItem import WeaponItem
 from Project.Items.ArmorItem import ArmorItem
-
-
-def check_item_availability(item):
-    if item is None:
-        return True
-    else:
-        return False
+from Project.Items.JewelItem import JewelItem
 
 
 class HeroEquipment:
@@ -29,53 +23,51 @@ class HeroEquipment:
         self.equipment_max_damage = total_max_damage
 
     def equip_armor(self, armor):
+        """Equip an armor to the hero"""
         if isinstance(armor, ArmorItem):
             if armor.armor_type == "helmet":
-                if check_item_availability(self.helmet):
-                    self.helmet = armor
-                    self.update_defensive_stats()
-                else:
-                    raise Exception("An armor is already equipped at this location")
+                self.helmet = armor
             elif armor.armor_type == "chestplate":
-                if check_item_availability(self.chestplate):
-                    self.chestplate = armor
-                    self.update_defensive_stats()
-                else:
-                    raise Exception("An armor is already equipped at this location")
+                self.chestplate = armor
             elif armor.armor_type == "pants":
-                if check_item_availability(self.pants):
-                    self.pants = armor
-                    self.update_defensive_stats()
-                else:
-                    raise Exception("An armor is already equipped at this location")
+                self.pants = armor
             elif armor.armor_type == "boots":
-                if check_item_availability(self.boots):
-                    self.boots = armor
-                    self.update_defensive_stats()
-                else:
-                    raise Exception("An armor is already equipped at this location")
+                self.boots = armor
             else:
                 raise Exception("Unknown armor location")
         else:
             raise Exception("Unknown armor")
+        self.update_defensive_stats()
 
     def equip_weapon(self, weapon, weapon_location):
-        if weapon_location == "weapon_1":
-            if check_item_availability(self.weapon_1):
+        """Equip a weapon to the hero"""
+        if isinstance(weapon, WeaponItem):
+            if weapon_location == "weapon_1":
                 self.weapon_1 = weapon
-                self.update_offensive_stats()
-            else:
-                raise Exception("A weapon is already equipped at this location")
-        elif weapon_location == "weapon_2":
-            if check_item_availability(self.weapon_2):
+            elif weapon_location == "weapon_2":
                 self.weapon_2 = weapon
-                self.update_offensive_stats()
             else:
-                raise Exception("A weapon is already equipped at this location")
+                raise Exception("Unknown weapon location")
         else:
-            raise Exception("Unknown weapon location")
+            raise Exception("Unknown weapon")
+        self.update_offensive_stats()
+
+    def equip_jewel(self, jewel, jewel_location):
+        """Equip a jewel to the hero"""
+        if isinstance(jewel, JewelItem):
+            if jewel_location == "jewel_1":
+                self.jewel_1 = jewel
+            elif jewel_location == "jewel_2":
+                self.jewel_2 = jewel
+            else:
+                raise Exception("Unknown jewel location")
+        else:
+            raise Exception("Unknown jewel")
+        self.update_defensive_stats()
+        self.update_offensive_stats()
 
     def update_defensive_stats(self):
+        """Update both total defensive stats with the stats given by the equipment"""
         total_protection_points = 0
         total_dodge_rate = 0.0
 
@@ -96,6 +88,7 @@ class HeroEquipment:
         self.equipment_dodge_rate = total_dodge_rate
 
     def update_offensive_stats(self):
+        """Update all total offensives stats with the stats given by the equipment"""
         total_parry_rate = 0.0
         total_critical_hit_rate = 0.0
         total_min_damage = 0
