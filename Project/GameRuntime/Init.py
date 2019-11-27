@@ -13,7 +13,7 @@ def beginning():
     # hero_name = input("Please enter your name : ")
     hero_name = "default"
     my_hero = Hero(100, 1, 100, 0, 0.0, 0.0, 0.0, 0, 0, hero_name, 0, 10, 5, 5, 5, 5, 0)
-    trader = Trader()
+    trader = Trader(5, 5, 20)
 
     pprint(vars(my_hero))
     print("Your name is now : ", my_hero.name)

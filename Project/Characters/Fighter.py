@@ -31,18 +31,16 @@ class Fighter(Character, LootsInventory):
 
     def heal_life_point(self, life_points):
         """Give back life_points to the fighter"""
-        # Limit of life_points
+        # Limit of life_points already reached
         if self.life_points == self.max_life_points:
-            self.life_points = self.max_life_points
-            print("Nothing happened")
+            print("Nothing happened. You already have all your lifepoints")
             return False
-        # heal life_point inférieur a max_life_points mais supérieur a la quantité de soin reçu + life_point
-        elif life_points + self.life_points > self.max_life_points:
-            self.life_points = self.max_life_points
-            return True
-        # heal basique
-        elif self.life_points < self.max_life_points:
+        # Heal the fighter
+        else:
             self.life_points += life_points
+            # Check is life_points do not overflow
+            if self.life_points > life_points:
+                self.life_points = self.max_life_points
             return True
 
     def loose_life_points(self, life_points):

@@ -12,7 +12,7 @@ class Hero(Fighter, HeroEquipment):
         self.name = name
         self.exp_points = exp_points
         self.mana_points = mana_points
-        self.max_mana_points = 7
+        self.max_mana_points = max_mana_points
         self.total_min_damage = total_min_damage
         self.total_max_damage = total_max_damage
         self.inventory = ["potion", "potion", "mana potion"]
@@ -102,11 +102,11 @@ class Hero(Fighter, HeroEquipment):
             print("Can't use this item")
 
     def lvl_up(self):
-        """Augmentation de niveau + augmentation d'une stats + full heal"""
+        """Level-up + upgrade of one stat + full heal"""
         self.level += 1
-        print("Level up ! You are now level : ", self.level, "\n Choose to stats to improve")
-        print("pv mana damage")
-        stats = str(input())
+        print("Level up ! You are now level : ", self.level, "\n Choose the stat you want to improve")
+        print("{pv} / {mana} / {damage}")
+        stats = input()
         if stats == "pv":
             self.max_life_points += 10
             print("Maximum life points : ", self.max_life_points - 10, "->", self.max_life_points)

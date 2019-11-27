@@ -41,7 +41,7 @@ class Initgame:
                                 # On verifie que l'objet existe
                                 if choice_buy == "potion" or choice_buy == "mana potion":
                                     # Ajout de l'objet dans l'inventaire + retrait argent
-                                    trader.sell(choice_buy, my_hero)
+                                    trader.sell_to_hero(choice_buy, my_hero)
                                     print("Something else ?")
                                 # Petit truc sympas
                                 elif choice_buy == "hi i'm here to take everything you have thanks":
