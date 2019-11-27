@@ -1,10 +1,12 @@
 import random
 from Project.Characters.Fighter import Fighter
 
+
 class Initgame:
     # Test map
     # Nb random de map
-    def __init__(self, my_hero):
+    def __init__(self, my_hero, floor, trader):
+        clear_csl()
         nb_map = random.randint(7, 15)
         # Les différents if seront modifiés (par rapport aux while), je testais un truc
         for room in range(1, nb_map + 1):
@@ -12,6 +14,11 @@ class Initgame:
             rnd_mob = random.randint(1, 100)
             # Marchand premiere map à chaque étage ?
             if room == 1:
+                if floor > 1:
+                    # Besoin d'afficher les stats de façon propre
+                    # fonction level up
+                    my_hero.lvl_up()
+                    print("\n")
                 print("First room")
                 print("1 : continuer 2 : inventaire 3 : marchand")
                 choice = int(input())
@@ -25,8 +32,32 @@ class Initgame:
                         print("inventaire : ")
                         my_hero.show_inventory()
                     elif choice == 3:
-                        print("Marchand")
-                        # Fonction marchand
+                        trader.text()
+                        choice_buy = ""
+                        """Le joueur écrit ce qu'il veut acheter"""
+                        while choice_buy != "nothing":
+                            choice_buy = str(input())
+                            if choice_buy != "nothing":
+                                # On verifie que l'objet existe
+                                if choice_buy == "potion" or choice_buy == "mana potion":
+                                    # Ajout de l'objet dans l'inventaire + retrait argent
+                                    trader.sell(choice_buy, my_hero)
+                                    print("Something else ?")
+                                # Petit truc sympas
+                                elif choice_buy == "hi i'm here to take everything you have thanks":
+                                    for i in range(5):
+                                        my_hero.add_inventory("potion")
+                                        my_hero.add_inventory("mana potion")
+                                    print("You action won't have any consequences you are lucky")
+                                    my_hero.add_gold(50000)
+                                    # La transaction s'arrête
+                                    break
+                                # L'objet n'existe pas
+                                else:
+                                    print("I don't understand")
+                            # Le joueur arrête la transaction
+                            elif choice_buy == "nothing":
+                                break
                     print("1 : continuer 2 : inventaire 3 : marchand")
                     choice = int(input())
                     if choice == 1:
@@ -57,17 +88,10 @@ class Initgame:
                 print("last room")
                 print("1 : Etage suivant 2 : inventaire")
                 choice = int(input())
+                # changement d'etage
                 if choice == 1:
                     print("Etage suivant")
-                    # level up ?
-                    my_hero.level = my_hero.level + 1
-                    print("Level up : ", my_hero.level - 1, "->", my_hero.level)
-                    # Fonction level up (choix d'1 ou +sieurs stats à augmenter ? en plus des autres ?)
-                # Ce while posera le plus de pb, si on choisit d'abord inventaire puis etage suivant c'est relou, et pas tres propre de mettre 2 fois le même if,
-                # genre 1 avant et 1 dedans (comme dans le premier if)
-                # Solution qui viendra je pense (le passage de niveau ne se fera pas ici
-                # Passer un etage ne changera rien au perosnnage
-                # Au pire level up salle 1 et le perso commence lvl 0 mdr, technique du bled
+                # Affichage inventaire + choix de continuer ou de revoir l'inventaire
                 while choice != 1:
                     if choice == 2:
                         # Afficher l'inventaire
@@ -76,5 +100,9 @@ class Initgame:
                     print("1 : Etage suivant 2 : inventaire")
                     choice = int(input())
 
-            for x in range(30):
-                print("\n")
+            clear_csl()
+
+# Clear la console
+def clear_csl():
+    for x in range(30):
+        print("\n")

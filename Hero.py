@@ -12,10 +12,28 @@ class Hero(Fighter, HeroEquipment):
         self.name = name
         self.exp_points = exp_points
         self.mana_points = mana_points
-        self.max_mana_points = max_mana_points
+        self.max_mana_points = 7
         self.total_min_damage = total_min_damage
         self.total_max_damage = total_max_damage
-        self.inventory = ["item1", "item2", "item3"]
+        self.inventory = ["potion", "potion", "mana potion"]
+
+    def show_stats(self):
+        print(vars(self))
+
+    def gain_mana(self, mana):
+        """Give back mana_points to the fighter"""
+        # Limit of mana_points
+        if self.mana_points == self.max_mana_points:
+            self.mana_points = self.max_mana_points
+            return False
+        # mana_point inférieur a max_mana_points mais mana_point + mana supérieur a max_mana_points
+        elif mana + self.mana_points > self.max_mana_points:
+            self.mana_points = self.max_mana_points
+            return True
+        # regeneration de mana
+        elif self.mana_points < self.max_mana_points:
+            self.mana_points += mana
+            return True
 
     def update(self):
         # just in case
@@ -30,49 +48,75 @@ class Hero(Fighter, HeroEquipment):
         # To Do : Dequeue loots
 
     def show_inventory(self):
-        #On peut pas faire plus simple ptdr
+        potion = 0
+        mana_potion = 0
+        # Compteur pour afficher le nombre de potion et de mana potion
         for item in self.inventory:
-            print(item)
+            if item == "potion":
+                potion += 1
+            elif item == "mana potion":
+                mana_potion += 1
+        print("potion : ", potion, "mana potion", mana_potion, "gold : ", self.gold)
         print("Utiliser un item ?")
         print("1 : oui 2 : non")
         choice = int(input())
         if choice == 1:
-            #Pareil faudra rajouter dans la fonction use_item si l'item existe
             print("Utiliser quel objet ?")
             choice = str(input())
-            #Si item existe alors
-            self.use_item(choice)
-            #Sinon
-            #Message d'erreur
-
+            # On vérifie que l'item existe
+            if choice == "potion" or choice == "mana potion":
+                self.use_item(choice)
+            else:
+                print("This item doesn't exist or I just can't use it")
 
     def add_inventory(self, item):
         # verifier si l'inventaire n'est pas plein (si on met une limite)
         self.inventory.append(item)
 
     def remove_inventory(self, item):
-        # verifier que l'item existe dans l'inventaire
+        # verifier que l'item existe dans l'inventaire pas trop utile en soit cette fonction je pense
         self.inventory.remove(item)
 
     def use_item(self, item):
-        # Verifier si l'item est présent dans l'inventaire à rajouter sinon ça crash
-        # potion de soin /////// item == "item1" pour des test
+        # potion de soin
         if item == "potion" or item == "item1":
             # fonction heal
-            print("before heal")
-            print(self.life_points)
-            self.life_points += 5
-            print("After heal")
-            print(self.life_points)
-            self.remove_inventory(item)
+            before = self.life_points
+            use = self.heal_life_point(10)
+            print("Life points : ", before, "->", self.life_points)
+            if use is True:
+                self.remove_inventory(item)
+            else:
+                print("You keep your potion")
         # potion de mana
-        elif item == "mana":
+        elif item == "mana potion":
             # fonction mana
-            print("before mana")
-            print(self.mana_points)
-            self.mana_points += 5
-            print("after mana")
-            print(self.mana_points)
-            self.remove_inventory(item)
+            before = self.mana_points
+            use = self.gain_mana(5)
+            print("Mana points : ", before, "->", self.mana_points)
+            if use is True:
+                self.remove_inventory(item)
+            else:
+                print("You keep your potion")
         else:
             print("Can't use this item")
+
+    def lvl_up(self):
+        """Augmentation de niveau + augmentation d'une stats + full heal"""
+        self.level += 1
+        print("Level up ! You are now level : ", self.level, "\n Choose to stats to improve")
+        print("pv mana damage")
+        stats = str(input())
+        if stats == "pv":
+            self.max_life_points += 10
+            print("Maximum life points : ", self.max_life_points - 10, "->", self.max_life_points)
+        elif stats == "mana":
+            self.max_mana_points += 5
+            print("Maximum mana points : ", self.max_mana_points - 5, "->", self.max_mana_points)
+        elif stats == "damage":
+            self.total_min_damage += 3
+            self.total_max_damage += 3
+            print("Damage : ", self.total_min_damage - 3, "-", self.total_max_damage-3, "->", self.total_min_damage, "-", self.total_max_damage)
+        # full heal
+        self.life_points = self.max_life_points
+        self.mana_points = self.max_mana_points
