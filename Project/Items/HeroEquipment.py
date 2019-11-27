@@ -5,8 +5,9 @@ from Project.Items.JewelItem import JewelItem
 
 class HeroEquipment:
     def __init__(self, helmet=None, chestplate=None, pants=None, boots=None, weapon_1=None, weapon_2=None,
-                 jewel_1=None, jewel_2=None, total_protection_points=0, total_dodge_rate=0, total_parry_rate=0,
-                 total_critical_hit_rate=0, total_min_damage=0, total_max_damage=0):
+                 jewel_1=None, jewel_2=None, equipment_protection_points=0, equipment_dodge_rate=0.0,
+                 equipment_parry_rate=0.0, equipment_critical_hit_rate=0.0,
+                 equipment_min_damage=0, equipment_max_damage=0):
         self.helmet = helmet
         self.chestplate = chestplate
         self.pants = pants
@@ -15,12 +16,12 @@ class HeroEquipment:
         self.weapon_2 = weapon_2
         self.jewel_1 = jewel_1
         self.jewel_2 = jewel_2
-        self.equipment_protection_points = total_protection_points
-        self.equipment_dodge_rate = total_dodge_rate
-        self.equipment_parry_rate = total_parry_rate
-        self.equipment_critical_hit_rate = total_critical_hit_rate
-        self.equipment_min_damage = total_min_damage
-        self.equipment_max_damage = total_max_damage
+        self.equipment_protection_points = equipment_protection_points
+        self.equipment_dodge_rate = equipment_dodge_rate
+        self.equipment_parry_rate = equipment_parry_rate
+        self.equipment_critical_hit_rate = equipment_critical_hit_rate
+        self.equipment_min_damage = equipment_min_damage
+        self.equipment_max_damage = equipment_max_damage
 
     def equip_armor(self, armor):
         """Equip an armor to the hero"""

@@ -8,14 +8,14 @@ equipment_balancing_points = 10
 
 
 class Fighter(Character, LootsInventory):
-    def __init__(self, gold, level, life_points, max_life_points, equipment_points, dodge_rate, parry_rate,
+    def __init__(self, gold, level, life_points, max_life_points, protection_points, dodge_rate, parry_rate,
                  critical_hit_rate, min_damage, max_damage, loots_inventory):
         Character.__init__(self, gold)
         LootsInventory.__init__(self, loots_inventory)
         self.level = level
         self.life_points = life_points
-        self.max_life_points = self.life_points
-        self.equipment_points = equipment_points
+        self.max_life_points = max_life_points
+        self.protection_points = protection_points
         self.dodge_rate = dodge_rate
         self.parry_rate = parry_rate
         self.critical_hit_rate = critical_hit_rate
@@ -39,7 +39,7 @@ class Fighter(Character, LootsInventory):
         else:
             self.life_points += life_points
             # Check is life_points do not overflow
-            if self.life_points > life_points:
+            if self.life_points > self.max_life_points:
                 self.life_points = self.max_life_points
             return True
 
@@ -71,8 +71,8 @@ class Fighter(Character, LootsInventory):
             actual_damage = 0
         elif rnd_parry <= self.parry_rate:
             print("Attack parry")
-            actual_damage = (parry_reduced_damage*damage) - (self.equipment_points/equipment_balancing_points)
+            actual_damage = (parry_reduced_damage*damage) - (self.protection_points / equipment_balancing_points)
         else:
             print("Full attack received")
-            actual_damage = damage - (self.equipment_points/equipment_balancing_points)
+            actual_damage = damage - (self.protection_points / equipment_balancing_points)
         self.loose_life_points(int(actual_damage))

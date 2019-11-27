@@ -7,3 +7,10 @@ class ArmorItem(Item):
         self.armor_type = armor_type
         self.protection_points = protection_points
         self.dodge_rate = dodge_rate
+
+    def display_stats(self):
+        print("+++++++++++++++++++++++++++++++++++++++++++++")
+        print("The armor is :", self.armor_type)
+        print("The armor has", self.protection_points, "protections points")
+        print("The armor has", self.dodge_rate, "% chance to dodge an attack")
+        print("+++++++++++++++++++++++++++++++++++++++++++++")
