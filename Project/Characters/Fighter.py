@@ -14,7 +14,7 @@ class Fighter(Character, LootsInventory):
         LootsInventory.__init__(self, loots_inventory)
         self.level = level
         self.life_points = life_points
-        self.max_life_points = max_life_points
+        self.max_life_points = self.life_points
         self.equipment_points = equipment_points
         self.dodge_rate = dodge_rate
         self.parry_rate = parry_rate
@@ -31,10 +31,19 @@ class Fighter(Character, LootsInventory):
 
     def heal_life_point(self, life_points):
         """Give back life_points to the fighter"""
-        self.life_points += life_points
         # Limit of life_points
-        if self.life_points > self.max_life_points:
+        if self.life_points == self.max_life_points:
             self.life_points = self.max_life_points
+            print("Nothing happened")
+            return False
+        # heal life_point inférieur a max_life_points mais supérieur a la quantité de soin reçu + life_point
+        elif life_points + self.life_points > self.max_life_points:
+            self.life_points = self.max_life_points
+            return True
+        # heal basique
+        elif self.life_points < self.max_life_points:
+            self.life_points += life_points
+            return True
 
     def loose_life_points(self, life_points):
         """Decrease the life_points of the fighter"""
