@@ -4,6 +4,7 @@ from Project.Items.WeaponItem import WeaponItem
 from Project.Items.ArmorItem import ArmorItem
 from pprint import pprint
 from Project.GameRuntime.Initgame import Initgame
+from Project.Characters.Trader import Trader
 import random
 
 
@@ -11,14 +12,19 @@ def beginning():
     print("Hello, welcome to our game.")
     # hero_name = input("Please enter your name : ")
     hero_name = "default"
-    my_hero = Hero(100, 1, 0, 0, 0.0, 0.0, 0.0, 0, 0, hero_name, 0, 10, 5, 5)
+    my_hero = Hero(100, 1, 100, 0, 0.0, 0.0, 0.0, 0, 0, hero_name, 0, 10, 5, 5, 5, 5, 0)
+    trader = Trader()
 
     pprint(vars(my_hero))
-    print("Your name is now : " + my_hero.name)
+    print("Your name is now : ", my_hero.name)
 
-    # Pour lancer le debut des salles
-    # Si on fait une boucle, 0pb avec le level qui augmente
-    Initgame(my_hero)
+    # Lancement des étages
+    floor = my_hero.level
+    print("floor", floor)
+    while my_hero.is_dead() is False:
+        Initgame(my_hero, floor, trader)
+        floor += 1
+        trader.potion_price += floor + 5
     # Test sur les transactions de gold
     '''
     my_hero.add_gold(50)
