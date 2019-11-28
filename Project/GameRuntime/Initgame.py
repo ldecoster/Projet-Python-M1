@@ -1,5 +1,6 @@
 import random
 from Project.Characters.Fighter import Fighter
+from Project.Items.ArmorItem import ArmorItem
 
 
 class Initgame:
@@ -58,6 +59,29 @@ class Initgame:
                             # Le joueur arrête la transaction
                             elif choice_buy == "nothing":
                                 break
+                    # Test ajout item
+                    elif choice == 4:
+                        # En gros j'explique
+                        # Pour ce bloc, il faudra que pour la création de l'item ce soit random (Loot du monstre = armor ?
+                        # si c'est oui, le random pour l'item se fera là bas)
+                        # Ensuite, pour la mise à jour, on a pas accès a genre max_life_points donc pour la maj c'est compliqué
+                        # donc ici je recup juste les valeurs et ensuite stats += valeur de equipment
+                        # Sauf que, il faudrait aussi faire l'inverse, quand on enleve un item
+                        #Donc là si tu compiles tu verras que les max_life_points (et life_points pcq on equip l'objet mais pas utile)
+                        # Pour moi c'est comme ça qu'il faudrait faire, apres à voir, teins moi au courant
+                        print("before equip")
+                        my_hero.show_stats()
+                        helmet = ArmorItem(my_hero.level, "helmet", 17, 7, 17, 17)
+                        a, b, c, d = my_hero.equip_armor(helmet)
+                        my_hero.max_life_points += a
+                        my_hero.life_points += a
+                        my_hero.max_mana_points += b
+                        my_hero.life_points += b
+                        my_hero.dodge_rate += c
+                        my_hero.protection_points += d
+                        print("new stats", my_hero.max_life_points, my_hero.max_mana_points, my_hero.dodge_rate, my_hero.protection_points)
+                        print("after equip")
+                        my_hero.show_stats()
                     print("1 : continuer 2 : inventaire 3 : marchand")
                     choice = int(input())
                     if choice == 1:
