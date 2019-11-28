@@ -4,48 +4,7 @@ from Project.Items.WeaponItem import WeaponItem
 from Project.Items.ArmorItem import ArmorItem
 from Project.Items.JewelItem import JewelItem
 from Project.Items.Consumable import Consumable
-
-
-def user_choice_yes_no():
-    user_choice = ""
-    while user_choice != ("y" or "n"):
-        user_choice = input("Your choice : ")
-        if user_choice == "y":
-            return True
-        elif user_choice == "n":
-            return False
-
-
-def user_choice_1_2():
-    user_choice = ""
-    while user_choice != ("1" or "2"):
-        user_choice = input("Your choice : ")
-        if user_choice == "1":
-            return True
-        elif user_choice == "2":
-            return False
-
-
-def user_choice_heal_mana_potion():
-    user_choice = ""
-    while user_choice != ("heal" or "mana"):
-        user_choice = input("Your choice : ")
-        if user_choice == "heal":
-            return True
-        elif user_choice == "mana":
-            return False
-
-
-def user_choice_lvl_up():
-    user_choice = ""
-    while user_choice != ("lifepoints" or "mana" or "damage"):
-        user_choice = input("Your choice : ")
-        if user_choice == "lifepoints":
-            return "lifepoints"
-        elif user_choice == "mana":
-            return "mana"
-        elif user_choice == "damage":
-            return "damage"
+from Project.GameRuntime.UserChoice import *
 
 
 class Hero(Fighter, HeroEquipment):
@@ -100,11 +59,9 @@ class Hero(Fighter, HeroEquipment):
             elif item == "mana potion":
                 mana_potion += 1
         print("heal potion : ", heal_potion, "mana potion", mana_potion, "gold : ", self.gold)
-        print("Would you like to use an item ? Yes {y} / No {n}")
-        if user_choice_yes_no():
-            print("Which item ? Heal potion {heal} / Mana potion {mana}")
+        if user_choice_yes_no("Would you like to use an item ? Yes {y} / No {n}"):
             # Rajouter test sur la fait qu'il y a bien une potion de disponible
-            if user_choice_heal_mana_potion():
+            if user_choice_heal_mana_potion("Which item ? Heal potion {heal} / Mana potion {mana}"):
                 self.use_item("heal potion")
             else:
                 self.use_item("mana potion")
@@ -146,14 +103,14 @@ class Hero(Fighter, HeroEquipment):
         """Level-up + upgrade of one stat + full heal"""
         self.level += 1
         print("Level up ! You are now level : ", self.level, "\n Choose the stat you want to improve")
-        print("Improve : {lifepoints} / {mana} / {damage}")
-        if user_choice_lvl_up() == "lifepoints":
+        lvl_up_choice = user_choice_lvl_up("Improve : {lifepoints} / {mana} / {damage}")
+        if lvl_up_choice == "lifepoints":
             self.max_life_points += 10
             print("Maximum life points : ", self.max_life_points - 10, "->", self.max_life_points)
-        elif user_choice_lvl_up() == "mana":
+        elif lvl_up_choice == "mana":
             self.max_mana_points += 5
             print("Maximum mana points : ", self.max_mana_points - 5, "->", self.max_mana_points)
-        elif user_choice_lvl_up() == "damage":
+        elif lvl_up_choice == "damage":
             self.total_min_damage += 3
             self.total_max_damage += 3
             print("Damage : ", self.total_min_damage - 3, "-", self.total_max_damage - 3, "->", self.total_min_damage,
@@ -200,8 +157,7 @@ class Hero(Fighter, HeroEquipment):
                 print("You currently have no", item.armor_type)
                 print("The new one has the following stats :")
                 item.display_stats()
-                print("Would to equip it ? Yes {y} / No {n}")
-                if user_choice_yes_no():
+                if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
                     self.equip_armor(item)
                     print(item.armor_type, "equipped")
                 else:
@@ -213,8 +169,7 @@ class Hero(Fighter, HeroEquipment):
                 self_item.display_stats()
                 print("The new", item.armor_type, "has the following stats :")
                 item.display_stats()
-                print("Would to equip the new one ? Yes {y} / No {n}")
-                if user_choice_yes_no():
+                if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
                     self.equip_armor(item)
                     print(item.armor_type, "equipped")
                 else:
@@ -236,8 +191,7 @@ class Hero(Fighter, HeroEquipment):
                 print("Your weapon 2 location is empty")
                 print("The new weapon has the following stats :")
                 item.display_stats()
-                print("Would to equip it ? Yes {y} / No {n}")
-                if user_choice_yes_no():
+                if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
                     self.equip_weapon(item, "weapon_2")
                     print("Weapon equipped")
                 else:
@@ -250,10 +204,8 @@ class Hero(Fighter, HeroEquipment):
                 self.weapon_2.display_stats()
                 print("The new weapon has the following stats :")
                 item.display_stats()
-                print("Would to equip the new one ? Yes {y} / No {n}")
-                if user_choice_yes_no():
-                    print("Now, where would like to equip it ? Weapon 1 {1} / Weapon 2 {2}")
-                    if user_choice_1_2():
+                if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
+                    if user_choice_1_2("Now, where would like to equip it ? Weapon 1 {1} / Weapon 2 {2}"):
                         self.equip_weapon(item, "weapon_1")
                     else:
                         self.equip_weapon(item, "weapon_2")
@@ -267,8 +219,7 @@ class Hero(Fighter, HeroEquipment):
                 print("Your jewel 1 location is empty")
                 print("The new jewel has the following stats :")
                 item.display_stats()
-                print("Would to equip it ? Yes {y} / No {n}")
-                if user_choice_yes_no():
+                if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
                     self.equip_jewel(item, "jewel_2")
                     print("Jewel equipped")
                 else:
@@ -277,8 +228,7 @@ class Hero(Fighter, HeroEquipment):
                 print("Your jewel 2 location is empty")
                 print("The new jewel has the following stats :")
                 item.display_stats()
-                print("Would to equip it ? Yes {y} / No {n}")
-                if user_choice_yes_no():
+                if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
                     self.equip_jewel(item, "jewel_2")
                     print("Jewel equipped")
                 else:
@@ -291,9 +241,8 @@ class Hero(Fighter, HeroEquipment):
                 self.jewel_2.display_stats()
                 print("The new weapon has the following stats :")
                 item.display_stats()
-                print("Would to equip the new one ? Yes {y} / No {n}")
-                if user_choice_yes_no():
-                    if user_choice_1_2():
+                if user_choice_yes_no("Would to equip the new one ? Yes {y} / No {n}"):
+                    if user_choice_1_2("Where would you like to equipt it ? Weapon 1 {1} / Weapon 2 {2}"):
                         self.equip_jewel(item, "weapon_1")
                     else:
                         self.equip_jewel(item, "weapon_2")
