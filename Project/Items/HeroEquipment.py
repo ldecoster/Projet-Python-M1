@@ -7,7 +7,7 @@ class HeroEquipment:
     def __init__(self, helmet=None, chestplate=None, pants=None, boots=None, weapon_1=None, weapon_2=None,
                  jewel_1=None, jewel_2=None, equipment_protection_points=0, equipment_dodge_rate=0.0,
                  equipment_parry_rate=0.0, equipment_critical_hit_rate=0.0,
-                 equipment_min_damage=0, equipment_max_damage=0):
+                 equipment_min_damage=0, equipment_max_damage=0, equipment_life_point=0, equipment_mana_point=0):
         self.helmet = helmet
         self.chestplate = chestplate
         self.pants = pants
@@ -22,6 +22,8 @@ class HeroEquipment:
         self.equipment_critical_hit_rate = equipment_critical_hit_rate
         self.equipment_min_damage = equipment_min_damage
         self.equipment_max_damage = equipment_max_damage
+        self.equipment_life_point = equipment_life_point
+        self.equipment_mana_point = equipment_mana_point
 
     def equip_armor(self, armor):
         """Equip an armor to the hero"""
@@ -38,7 +40,7 @@ class HeroEquipment:
                 raise Exception("Unknown armor location")
         else:
             raise Exception("Unknown armor")
-        self.update_defensive_stats()
+        return self.update_defensive_stats()
 
     def equip_weapon(self, weapon, weapon_location):
         """Equip a weapon to the hero"""
@@ -51,7 +53,7 @@ class HeroEquipment:
                 raise Exception("Unknown weapon location")
         else:
             raise Exception("Unknown weapon")
-        self.update_offensive_stats()
+        return self.update_offensive_stats()
 
     def equip_jewel(self, jewel, jewel_location):
         """Equip a jewel to the hero"""
@@ -71,22 +73,38 @@ class HeroEquipment:
         """Update both total defensive stats with the stats given by the equipment"""
         total_protection_points = 0
         total_dodge_rate = 0.0
+        total_life_point = 0
+        total_mana_point = 0
 
+        # faire une petite fonction pour eviter d'avoir une duplication de code 4 if
         if isinstance(self.helmet, ArmorItem):
             total_protection_points += self.helmet.protection_points
             total_dodge_rate += self.helmet.dodge_rate
+            total_life_point += self.helmet.life_point
+            total_mana_point += self.helmet.mana_point
         if isinstance(self.chestplate, ArmorItem):
             total_protection_points += self.chestplate.protection_points
             total_dodge_rate += self.chestplate.dodge_rate
+            total_life_point += self.helmet.life_point
+            total_mana_point += self.helmet.mana_point
         if isinstance(self.pants, ArmorItem):
             total_protection_points += self.pants.protection_points
             total_dodge_rate += self.pants.dodge_rate
+            total_life_point += self.helmet.life_point
+            total_mana_point += self.helmet.mana_point
         if isinstance(self.boots, ArmorItem):
             total_protection_points += self.boots.protection_points
             total_dodge_rate += self.boots.dodge_rate
+            total_life_point += self.helmet.life_point
+            total_mana_point += self.helmet.mana_point
 
         self.equipment_protection_points = total_protection_points
         self.equipment_dodge_rate = total_dodge_rate
+        self.equipment_life_point = total_life_point
+        self.equipment_mana_point = total_mana_point
+        a = self.equipment_life_point + self.equipment_life_point
+        print("Main equipment life : ", a)
+        return self.equipment_life_point, self.equipment_mana_point, self.equipment_dodge_rate, self.equipment_protection_points
 
     def update_offensive_stats(self):
         """Update all total offensives stats with the stats given by the equipment"""
