@@ -1,5 +1,5 @@
-from Project.Characters.Character import Character
-from Project.Items.LootsInventory import LootsInventory
+from TheGoodGameWithADungeon.Characters.Character import Character
+from TheGoodGameWithADungeon.Items.LootsInventory import LootsInventory
 import random
 
 

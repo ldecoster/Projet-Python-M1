@@ -8,7 +8,7 @@
     - Open a Python IDE (PyCharm for example)
 
 - If the Python IDE is Pycharm
-    - Open the project (NOM_DU_DOSSIER)
+    - Open the project The good game with a dungeon
     - Now we Configure the Python Run Configuration (Top Right, next to the Run button)
     - "Edit Configuration"
     - Add new Configuration

@@ -1,4 +1,4 @@
-from Project.Items.Potion import Potion
+from TheGoodGameWithADungeon.Items.Potion import Potion
 
 
 class Inventory:

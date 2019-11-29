@@ -1,6 +1,6 @@
-from Project.Items.WeaponItem import WeaponItem
-from Project.Items.ArmorItem import ArmorItem
-from Project.Items.JewelItem import JewelItem
+from TheGoodGameWithADungeon.Items.WeaponItem import WeaponItem
+from TheGoodGameWithADungeon.Items.ArmorItem import ArmorItem
+from TheGoodGameWithADungeon.Items.JewelItem import JewelItem
 
 
 class HeroEquipment:

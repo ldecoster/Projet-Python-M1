@@ -1,6 +1,6 @@
-from Project.Characters.Hero import Hero
-from Project.GameRuntime.Floor import Floor
-from Project.Characters.Trader import Trader
+from TheGoodGameWithADungeon.Characters.Hero import Hero
+from TheGoodGameWithADungeon.GameRuntime.Floor import Floor
+from TheGoodGameWithADungeon.Characters.Trader import Trader
 
 
 def launch_game():
@@ -18,6 +18,7 @@ def launch_game():
         print("Floor : ", floor)
         trader = Trader(5, trader_price, 5, trader_price)
 
+        my_hero.show_general_stats()
         Floor(my_hero, floor, trader)
 
         if my_hero.is_dead() is False:

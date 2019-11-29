@@ -1,9 +1,9 @@
 import random
-from Project.Characters.Hero import Hero
-from Project.Characters.Monster import Monster
-from Project.Items.RandomItem import RandomItem
-from Project.GameRuntime.Texts import *
-from Project.GameRuntime.UserChoice import *
+from TheGoodGameWithADungeon.Characters.Hero import Hero
+from TheGoodGameWithADungeon.Characters.Monster import Monster
+from TheGoodGameWithADungeon.Items.RandomItem import RandomItem
+from TheGoodGameWithADungeon.GameRuntime.Texts import *
+from TheGoodGameWithADungeon.GameRuntime.UserChoice import *
 
 
 class Floor:
@@ -53,6 +53,7 @@ class Floor:
                                 if monster.has_been_killed(my_hero):
                                     my_hero.add_gold(monster.gold)
                                     my_hero.gain_experience(monster.loot_experiences)
+                                    my_hero.monster_killed_number += 1  # stats
                                     print("You still have", my_hero.life_points, "after the fight")
                                     break
                                 # Else, time to the monster to attack the hero
@@ -72,8 +73,10 @@ class Floor:
                                     trader.show_available_potions()
                                     if user_choice_heal_mana_potion("Which potion ? Heal {heal} / Mana {mana}"):
                                         trader.sell_potion(my_hero, "heal")
+                                        my_hero.heal_potions_bought_number += 1  # stats
                                     else:
                                         trader.sell_potion(my_hero, "mana")
+                                        my_hero.mana_potions_bought_number += 1  # stats
                                 print("You say goodbye to the trader and keep walking...")
                                 continue
                             else:

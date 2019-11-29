@@ -1,6 +1,6 @@
 import random
-from Project.Items.RandomItem import RandomItem
-from Project.Characters.Fighter import Fighter
+from TheGoodGameWithADungeon.Items.RandomItem import RandomItem
+from TheGoodGameWithADungeon.Characters.Fighter import Fighter
 
 
 class Monster(Fighter):

@@ -1,4 +1,4 @@
-from Project.Items.Item import Item
+from TheGoodGameWithADungeon.Items.Item import Item
 
 
 class WeaponItem(Item):

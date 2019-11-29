@@ -1,19 +1,20 @@
 import random
-from Project.Characters.Fighter import Fighter
-from Project.Characters.Monster import Monster
-from Project.GameRuntime.UserChoice import *
-from Project.Items.ArmorItem import ArmorItem
-from Project.Items.Inventory import Inventory
-from Project.Items.JewelItem import JewelItem
-from Project.Items.HeroEquipment import HeroEquipment
-from Project.Items.Potion import Potion
-from Project.Items.WeaponItem import WeaponItem
+from TheGoodGameWithADungeon.Characters.Fighter import Fighter
+from TheGoodGameWithADungeon.Characters.Monster import Monster
+from TheGoodGameWithADungeon.GameRuntime.Stats import Stats
+from TheGoodGameWithADungeon.GameRuntime.UserChoice import *
+from TheGoodGameWithADungeon.Items.ArmorItem import ArmorItem
+from TheGoodGameWithADungeon.Items.Inventory import Inventory
+from TheGoodGameWithADungeon.Items.JewelItem import JewelItem
+from TheGoodGameWithADungeon.Items.HeroEquipment import HeroEquipment
+from TheGoodGameWithADungeon.Items.Potion import Potion
+from TheGoodGameWithADungeon.Items.WeaponItem import WeaponItem
 
 
 experience_level = {1: 0, 2: 50, 3: 120, 4: 210, 5: 330, 6: 480, 7: 660, 8: 1000, 9: 1490, 10: 1840}
 
 
-class Hero(Fighter, HeroEquipment, Inventory):
+class Hero(Fighter, HeroEquipment, Inventory, Stats):
     def __init__(self, gold=100, level=1, life_points=100, max_life_points=100, protection_points=0, dodge_rate=0.0,
                  parry_rate=0.0, critical_hit_rate=0.0, min_damage=1, max_damage=10, name="default", exp_points=0,
                  mana_points=20, max_mana_points=20, total_min_damage=1, total_max_damage=10, loots_inventory=[]):
@@ -21,6 +22,8 @@ class Hero(Fighter, HeroEquipment, Inventory):
                          critical_hit_rate, min_damage, max_damage, loots_inventory)
         HeroEquipment.__init__(self)
         Inventory.__init__(self)
+        Stats.__init__(self)
+
         self.name = name
         self.exp_points = exp_points
         self.mana_points = mana_points
@@ -68,6 +71,7 @@ class Hero(Fighter, HeroEquipment, Inventory):
         # Restore mana
         else:
             self.mana_points += mana_points
+            self.mana_gained += mana_points
             # Check is mana_points do not overflow
             if self.mana_points > self.max_mana_points:
                 self.mana_points = self.max_mana_points
@@ -107,6 +111,7 @@ class Hero(Fighter, HeroEquipment, Inventory):
                 if can_restore_life_points is True:
                     print("Your life points changed from", before, "to", self.life_points)
                     self.remove_potion("heal")
+                    self.heal_potions_used_number += 1  # stats
                 else:
                     print("Potion not used as you already have all your life points")
             else:
@@ -119,6 +124,7 @@ class Hero(Fighter, HeroEquipment, Inventory):
                 if can_restore_mana_points is True:
                     print("Your mana points changed from", before, "to", self.life_points)
                     self.remove_potion("mana")
+                    self.mana_potions_used_number += 1  # stats
                 else:
                     print("Potion not used as you already have all your mana points")
             else:
@@ -131,8 +137,8 @@ class Hero(Fighter, HeroEquipment, Inventory):
         if self.mana_points >= 5:
             if target is None:
                 """Heal"""
-                print("You regained some health")
-                self.heal_life_point(self.max_life_points * 0.2)
+                self.heal_life_point(int(self.max_life_points * 0.2))
+                print("You regained some health. You now have", self.life_points, "life points")
             elif isinstance(target, Monster):
                 """Magic attack"""
                 print("Magic attack performed against the monster")
@@ -142,6 +148,8 @@ class Hero(Fighter, HeroEquipment, Inventory):
             else:
                 print("Spell failed")
             self.mana_points -= 5
+            self.mana_consummed += 5  # stats
+            self.spells_performed_number += 1  # stats
             print("Mana point after the spell", self.mana_points)
         else:
             print("Not enough mana to perform a spell. Doing a regular attack instead")

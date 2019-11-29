@@ -1,6 +1,6 @@
-from Project.Characters.Character import Character
-from Project.Items.Inventory import Inventory
-from Project.Items.Potion import Potion
+from TheGoodGameWithADungeon.Characters.Character import Character
+from TheGoodGameWithADungeon.Items.Inventory import Inventory
+from TheGoodGameWithADungeon.Items.Potion import Potion
 
 
 class Trader(Character, Inventory, Potion):
