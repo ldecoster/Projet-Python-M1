@@ -1,8 +1,6 @@
 import random
-from Project.Characters.Fighter import Fighter
 from Project.Characters.Hero import Hero
 from Project.Characters.Monster import Monster
-from Project.Items.ArmorItem import ArmorItem
 from Project.Items.RandomItem import RandomItem
 from Project.GameRuntime.Texts import *
 from Project.GameRuntime.UserChoice import *
@@ -11,7 +9,7 @@ from Project.GameRuntime.UserChoice import *
 class Floor:
     def __init__(self, my_hero, floor, trader):
         clear_csl()
-        room_number = random.randint(7, 15)  # Random number of maps
+        room_number = random.randint(7, 12)  # Random number of maps
 
         monster_rate = 58
         trader_rate = 9

@@ -33,5 +33,5 @@ You can't do anything so you decide to start to explore the dungeon, room by roo
 
 ## GAMEPLAY
 
-It's an endless dungeon (infinite floor), in each floor you wil have to go through 7 to 15 room but be careful some monster can be in those rooms, one trader will occasionally appear to help you in these endless hell, some say he follows the prisoner to steal what they didn't saw to sold the item just after. Gain level by killing the monster who seem to be old fighter who went crazy, try to go as far as posible, find new gear, use spell to heal yoursel or to kill your enemy, use some potion you found. Survive.
+It's an endless dungeon (infinite floor), in each floor you wil have to go through 7 to 12 room but be careful some monster can be in those rooms, one trader will occasionally appear to help you in these endless hell, some say he follows the prisoner to steal what they didn't saw to sold the item just after. Gain level by killing the monster who seem to be old fighter who went crazy, try to go as far as posible, find new gear, use spell to heal yoursel or to kill your enemy, use some potion you found. Survive.
 
