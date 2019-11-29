@@ -10,7 +10,7 @@ class WeaponItem(Item):
         self.min_damage = min_damage
         self.max_damage = max_damage
         # display pour verifier dans monstre
-        self.display_stats()
+        # self.display_stats()
 
     def display_stats(self):
         print("+++++++++++++++++++++++++++++++++++++++++++++")

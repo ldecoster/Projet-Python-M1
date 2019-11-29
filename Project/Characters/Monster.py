@@ -21,12 +21,9 @@ class Monster(Fighter):
         else:
             return False
 
-    # A changer de place il me semble pour recuperer le level du hero, comme ça
     # On pourra generer les stats de l'item en fonction du lvl du perso
-    # pour l'instant je mets lvl = 1
-    # prendre lvl mob jsuis con
     def random_item_generator(self):
-        level = 1
+        level = self.level
         rnd_item_type = random.randint(1, 6)
         item = None
         #rnd pour les stats

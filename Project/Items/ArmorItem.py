@@ -11,7 +11,7 @@ class ArmorItem(Item):
         self.life_point = life_points
         self.mana_point = mana_points
         # display pour verifier dans monstre
-        self.display_stats()
+        # self.display_stats()
 
     def display_stats(self):
         print("+++++++++++++++++++++++++++++++++++++++++++++")

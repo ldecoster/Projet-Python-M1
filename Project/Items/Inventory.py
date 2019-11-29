@@ -7,15 +7,15 @@ class Inventory:
 
     def count_potions(self):
         """Return the number of heal and mana potions"""
+        heal_potion_number = 0
+        mana_potion_number = 0
         for item in self.inventory:
-            heal_potion_number = 0
-            mana_potion_number = 0
             if isinstance(item, Potion):
                 if item.potion_type == "heal":
                     heal_potion_number += 1
                 elif item.potion_type == "mana":
                     mana_potion_number += 1
-            return heal_potion_number, mana_potion_number
+        return heal_potion_number, mana_potion_number
 
     def add_item(self, item):
         """Add any item to the inventory"""

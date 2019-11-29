@@ -78,10 +78,11 @@ class HeroEquipment:
 
         armors = [self.helmet, self.chestplate, self.pants, self.boots]
         for armor in armors:
-            total_protection_points += armor.protection_points
-            total_dodge_rate += armor.dodge_rate
-            total_life_point += armor.life_point
-            total_mana_point += armor.mana_point
+            if isinstance(armor, ArmorItem):
+                total_protection_points += armor.protection_points
+                total_dodge_rate += armor.dodge_rate
+                total_life_point += armor.life_point
+                total_mana_point += armor.mana_point
 
         self.equipment_protection_points = total_protection_points
         self.equipment_dodge_rate = total_dodge_rate
@@ -97,10 +98,11 @@ class HeroEquipment:
 
         weapons = [self.weapon_1, self.weapon_2]
         for weapon in weapons:
-            total_parry_rate += weapon.parry_rate
-            total_critical_hit_rate += weapon.critical_hit_rate
-            total_min_damage += weapon.min_damage
-            total_max_damage += weapon.max_damage
+            if isinstance(weapon, WeaponItem):
+                total_parry_rate += weapon.parry_rate
+                total_critical_hit_rate += weapon.critical_hit_rate
+                total_min_damage += weapon.min_damage
+                total_max_damage += weapon.max_damage
 
         self.equipment_parry_rate = total_parry_rate
         self.equipment_critical_hit_rate = total_critical_hit_rate

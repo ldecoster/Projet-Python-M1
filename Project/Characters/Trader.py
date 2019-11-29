@@ -18,6 +18,9 @@ class Trader(Character, Inventory, Potion):
         for j in range(self.mana_potion_number):
             self.inventory.append(Potion("mana", self.mana_potion_price))
 
+    def update_potions_number(self):
+        self.heal_potion_number, self.mana_potion_number = self.count_potions()
+
     def sell_potion(self, hero, hero_potion_type_choice):
         """Sell potion to the hero by doing a trade of golds"""
         if hero_potion_type_choice == "heal":
@@ -36,12 +39,13 @@ class Trader(Character, Inventory, Potion):
                     potion = self.remove_potion(hero_potion_type_choice)
                     hero.add_item(potion)
                     self.add_gold(potion_price)
+                    self.update_potions_number()
                 except Exception as e:
                     print(str(e))
             else:
                 print("Sorry, you don't have enough golds")
         else:
-            print("Sorry, the potion you want have been already sold out")
+            print("Sorry, the potion you want have already been sold out")
 
     def show_available_potions(self):
         """Print which potions the trader has to sell"""
