@@ -13,13 +13,14 @@ class Monster(Fighter):
 
     def has_been_killed(self, hero):
         """Check if the monster is dead or not. If so, loot the stuff"""
-        if self.life_points <= 0:
+        if self.is_dead():
             hero.loots_inventory = self.loots_inventory
             hero.add_gold(self.gold)
             hero.receive_loots(self.loots_inventory)
             return True
         else:
             return False
+
     # A changer de place il me semble pour recuperer le level du hero, comme ça
     # On pourra generer les stats de l'item en fonction du lvl du perso
     # pour l'instant je mets lvl = 1

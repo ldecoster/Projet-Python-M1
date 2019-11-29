@@ -6,4 +6,5 @@ class LootsInventory:
         self.loots_inventory = loots_inventory
 
     def add_loots(self, loots):
+        """Add all loots to itself"""
         self.loots_inventory = loots

@@ -19,6 +19,7 @@ class Trader(Character, Inventory, Potion):
             self.inventory.append(Potion("mana", self.mana_potion_price))
 
     def sell_potion(self, hero, hero_potion_type_choice):
+        """Sell potion to the hero by doing a trade of golds"""
         if hero_potion_type_choice == "heal":
             potion_number = self.heal_potion_number
             potion_price = self.heal_potion_price
@@ -43,6 +44,7 @@ class Trader(Character, Inventory, Potion):
             print("Sorry, the potion you want have been already sold out")
 
     def show_available_potions(self):
+        """Print which potions the trader has to sell"""
         print("I have those following potions : ")
         print("#", self.heal_potion_number, "heal potion(s) at a price of", self.heal_potion_price, "golds")
         print("#", self.mana_potion_number, "mana potion(s) at a price of", self.mana_potion_price, "golds")

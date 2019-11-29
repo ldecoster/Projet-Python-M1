@@ -23,7 +23,6 @@ class Hero(Fighter, HeroEquipment, Inventory):
         self.protection_points = self.equipment_protection_points  # "Override"
         self.total_min_damage = total_min_damage
         self.total_max_damage = total_max_damage
-        self.loots_inventory = []
 
     def show_stats(self):
         print(vars(self))
@@ -128,22 +127,25 @@ class Hero(Fighter, HeroEquipment, Inventory):
         self.mana_points = self.max_mana_points
 
     def receive_loots(self, loots):
+        """Get the loots obtained from a monster"""
         self.loots_inventory = loots
         print("Loots received")
         self.loop_through_loots()
 
     def loop_through_loots(self):
-        # Pop loot from inventory until it's empty
+        """Pop loot from loots_inventory until it's empty"""
         while self.loots_inventory:
             loot = self.loots_inventory.pop()
             if isinstance(loot, ArmorItem) or isinstance(loot, WeaponItem) or isinstance(loot, JewelItem):
                 self.deal_with_new_loot(loot)
             else:
                 print("Unknown item")
+        # Reset loots_inventory in the easiest way
         self.loots_inventory = []
 
     # Fonction à raccourcir / à séparer
     def deal_with_new_loot(self, item):
+        """Handle case depending on the nature of the item"""
         if isinstance(item, ArmorItem):
             print("You found a new", item.armor_type)
             if item.armor_type == "helmet":
