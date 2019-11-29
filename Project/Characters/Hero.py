@@ -9,9 +9,9 @@ from Project.Items.WeaponItem import WeaponItem
 
 
 class Hero(Fighter, HeroEquipment, Inventory):
-    def __init__(self, gold, level, life_points, max_life_points, protection_points, dodge_rate, parry_rate,
-                 critical_hit_rate, min_damage, max_damage,
-                 name, exp_points, mana_points, max_mana_points, total_min_damage, total_max_damage, loots_inventory):
+    def __init__(self, gold=100, level=1, life_points=100, max_life_points=100, protection_points=0, dodge_rate=0.0,
+                 parry_rate=0.0, critical_hit_rate=0.0, min_damage=1, max_damage=10, name="default", exp_points=0,
+                 mana_points=20, max_mana_points=20, total_min_damage=1, total_max_damage=10, loots_inventory=[]):
         Fighter.__init__(self, gold, level, life_points, max_life_points, protection_points, dodge_rate, parry_rate,
                          critical_hit_rate, min_damage, max_damage, loots_inventory)
         HeroEquipment.__init__(self)
