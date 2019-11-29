@@ -62,6 +62,21 @@ class Fighter(Character, LootsInventory):
             other.take_damage(rnd_damage)
         print("After hit", other.life_points)
 
+    def magical_spell(self, player=None, other=None):
+        """Performs an attack on an other fighter or heal the player"""
+        print("Mana point before the spell", player.mana_points)
+        if player is None:
+            """Magic attack"""
+            rnd_damage = random.randint(player.level*3, player.level*5)
+            player.attack(other)
+            player.mana_points -= 5
+        elif other is None:
+            """Heal"""
+            player.heal_life_point(player.max_life_points*0.2)
+        player.mana_points -= 5
+        print("Mana point after the spell", player.mana_points)
+
+
     def take_damage(self, damage):
         """Computes the damage received by an attack with all the fighter parameters"""
         rnd_dodge = random.random()*100
