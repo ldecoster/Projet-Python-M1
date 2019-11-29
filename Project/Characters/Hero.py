@@ -1,4 +1,6 @@
+import random
 from Project.Characters.Fighter import Fighter
+from Project.Characters.Monster import Monster
 from Project.GameRuntime.UserChoice import *
 from Project.Items.ArmorItem import ArmorItem
 from Project.Items.Inventory import Inventory
@@ -45,11 +47,17 @@ class Hero(Fighter, HeroEquipment, Inventory):
         self.total_max_damage = self.max_damage + self.equipment_max_damage
 
     def manage_experience_points(self):
+        """Increase the hero's level if he has enough experience points"""
         while self.exp_points > experience_level[self.level + 1]:
             print("Congratulation, you gained a new level !")
             self.level += 1
             print("You are now level", self.level)
             self.lvl_up()
+
+    def gain_experience(self, experience_points):
+        """Give some experiences to the hero"""
+        self.exp_points += experience_points
+        self.manage_experience_points()
 
     def gain_mana(self, mana_points):
         """Give back mana_points to the fighter"""
@@ -118,6 +126,27 @@ class Hero(Fighter, HeroEquipment, Inventory):
         else:
             raise Exception("Unknown potion type")
 
+    def magical_spell(self, target=None):
+        """Performs an attack on an other fighter or heal the player"""
+        if self.mana_points >= 5:
+            if target is None:
+                """Heal"""
+                print("You regained some health")
+                self.heal_life_point(self.max_life_points * 0.2)
+            elif isinstance(target, Monster):
+                """Magic attack"""
+                print("Magic attack performed against the monster")
+                rnd_damage = random.randint(self.level*3, self.level*5)
+                target.loose_life_points(rnd_damage)
+                self.attack(target)  # An regular attack is also performed
+            else:
+                print("Spell failed")
+            self.mana_points -= 5
+            print("Mana point after the spell", self.mana_points)
+        else:
+            print("Not enough mana to perform a spell. Doing a regular attack instead")
+            self.attack(target)
+
     def lvl_up(self):
         """Level-up + upgrade of one stat + full heal"""
         print("Choose the stat you want to improve")
@@ -141,7 +170,7 @@ class Hero(Fighter, HeroEquipment, Inventory):
     def receive_loots(self, loots):
         """Get the loots obtained from a monster"""
         self.loots_inventory = loots
-        print("Loots received")
+        print("New loots received : ")
         self.loop_through_loots()
 
     def loop_through_loots(self):
@@ -238,7 +267,7 @@ class Hero(Fighter, HeroEquipment, Inventory):
                 print("The new jewel has the following stats :")
                 item.display_stats()
                 if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
-                    self.equip_jewel(item, "jewel_2")
+                    self.equip_jewel(item, "jewel_1")
                     print("Jewel equipped")
                 else:
                     print("Jewel not equipped")

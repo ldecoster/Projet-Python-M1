@@ -45,49 +45,26 @@ class Fighter(Character, LootsInventory):
 
     def loose_life_points(self, life_points):
         """Decrease the life_points of the fighter"""
-        print("lost", life_points, " life points")
         self.life_points -= life_points
 
     def attack(self, other):
         """Performs an attack on an other fighter"""
-        print("before hit", other.life_points)
         rnd_damage = random.randint(self.min_damage, self.max_damage)
         rnd_critical_hit = random.random()*100
 
         if rnd_critical_hit <= self.critical_hit_rate:
-            print("Critical hit", 2*rnd_damage)
             other.take_damage(2*rnd_damage)
         else:
-            print("Regular hit", rnd_damage)
             other.take_damage(rnd_damage)
-        print("After hit", other.life_points)
-
-    def magical_spell(self, player=None, other=None):
-        """Performs an attack on an other fighter or heal the player"""
-        print("Mana point before the spell", player.mana_points)
-        if player is None:
-            """Magic attack"""
-            rnd_damage = random.randint(player.level*3, player.level*5)
-            player.attack(other)
-            player.mana_points -= 5
-        elif other is None:
-            """Heal"""
-            player.heal_life_point(player.max_life_points*0.2)
-        player.mana_points -= 5
-        print("Mana point after the spell", player.mana_points)
-
 
     def take_damage(self, damage):
         """Computes the damage received by an attack with all the fighter parameters"""
         rnd_dodge = random.random()*100
         rnd_parry = random.random()*100
         if rnd_dodge <= self.dodge_rate:
-            print("Attack dodged")
             actual_damage = 0
         elif rnd_parry <= self.parry_rate:
-            print("Attack parry")
             actual_damage = (parry_reduced_damage*damage) - (self.protection_points / equipment_balancing_points)
         else:
-            print("Full attack received")
             actual_damage = damage - (self.protection_points / equipment_balancing_points)
         self.loose_life_points(int(actual_damage))

@@ -46,3 +46,27 @@ def user_choice_lvl_up(message):
             return "mana"
         elif user_choice == "damage":
             return "damage"
+
+
+def user_choice_attack(message):
+    """User choice which require a spell/regular answer"""
+    user_choice = ""
+    while user_choice != ("spell" or "reg"):
+        print(message)
+        user_choice = input("Your choice : ")
+        if user_choice == "spell":
+            return True
+        elif user_choice == "reg":
+            return False
+
+
+def user_choice_spell(message):
+    """User choice which require a heal/damage answer"""
+    user_choice = ""
+    while user_choice != ("heal" or "damage"):
+        print(message)
+        user_choice = input("Your choice : ")
+        if user_choice == "heal":
+            return True
+        elif user_choice == "damage":
+            return False
