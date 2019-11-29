@@ -31,18 +31,18 @@ class RandomItem:
             armor_type = "pants"
         else:
             armor_type = "boots"
-        protection_points = int((self.level / 2) * random.randint(5, 15))  # max = 75 for level 10
-        dodge_rate = round((self.level / 2) * random.random() * 3, 2)  # max = 15 for level 10
-        life_points = int((self.level / 2) * random.randint(2, 7))  # max = 35 for level 10
-        mana_points = int((self.level / 2) * random.randint(1, 4))  # max = 20 for level 10
+        protection_points = int(1 + (self.level / 2) * random.randint(5, 15))  # max = 75 for level 10
+        dodge_rate = round(1 + (self.level / 2) * random.random() * 3, 2)  # max = 15 for level 10
+        life_points = int(1 + (self.level / 2) * random.randint(2, 7))  # max = 35 for level 10
+        mana_points = int(1 + (self.level / 2) * random.randint(1, 4))  # max = 20 for level 10
 
         return ArmorItem(self.level, armor_type, protection_points, dodge_rate, life_points, mana_points)
 
     def random_weapon(self):
-        parry_rate = round((self.level / 2) * random.random() * 3.6, 2)  # max = 18 for level 10
-        critical_hit_rate = round((self.level / 2) * random.random() * 2.8, 2)  # max = 14 for level 10
-        min_damage = int((self.level / 2) * random.randint(1, 4))  # max = 20 for level 10
-        max_damage = int((self.level / 2) * random.randint(4, 8))  # max = 40 for level 10
+        parry_rate = round(1 + (self.level / 2) * random.random() * 3.6, 2)  # max = 18 for level 10
+        critical_hit_rate = round(1 + (self.level / 2) * random.random() * 2.8, 2)  # max = 14 for level 10
+        min_damage = int(1 + (self.level / 2) * random.randint(1, 4))  # max = 20 for level 10
+        max_damage = int(1 + (self.level / 2) * random.randint(4, 8))  # max = 40 for level 10
         return WeaponItem(self.level, parry_rate, critical_hit_rate, min_damage, max_damage)
 
     def random_jewel(self):

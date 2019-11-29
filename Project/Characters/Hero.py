@@ -49,7 +49,7 @@ class Hero(Fighter, HeroEquipment, Inventory):
     def manage_experience_points(self):
         """Increase the hero's level if he has enough experience points"""
         while self.exp_points > experience_level[self.level + 1]:
-            print("Congratulation, you gained a new level !")
+            print("*** Congratulation, you gained a new level ! ***")
             self.level += 1
             print("You are now level", self.level)
             self.lvl_up()
@@ -145,7 +145,6 @@ class Hero(Fighter, HeroEquipment, Inventory):
             print("Mana point after the spell", self.mana_points)
         else:
             print("Not enough mana to perform a spell. Doing a regular attack instead")
-            self.attack(target)
 
     def lvl_up(self):
         """Level-up + upgrade of one stat + full heal"""
@@ -184,7 +183,6 @@ class Hero(Fighter, HeroEquipment, Inventory):
         # Reset loots_inventory in the easiest way
         self.loots_inventory = []
 
-    # Fonction à raccourcir / à séparer
     def deal_with_new_loot(self, item):
         """Handle case depending on the nature of the item"""
         if isinstance(item, ArmorItem):

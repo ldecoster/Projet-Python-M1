@@ -26,19 +26,21 @@ class Floor:
                     break
                 else:
                     print("")
+                    print("")
                     print("~ Room number", room)
                     if room == room_number:
                         print("Last room")
-
-                    if user_choice_yes_no("An action is about to happen, do you want to open your inventory ?"
-                                          " Yes {y} / No {n}"):
-                        my_hero.show_inventory()
                     else:
+                        print("")
+                        if user_choice_yes_no("An action is about to happen, do you want to open your inventory ?"
+                                              " Yes {y} / No {n}"):
+                            my_hero.show_inventory()
                         rnd_action_number = random.randint(1, 100)
                         if rnd_action_number <= monster_rate:
                             print("--- Fight ---")
                             monster = Monster(my_hero.level)
                             while True:
+                                print("You have", my_hero.life_points, "life points and", my_hero.mana_points, "mana")
                                 if user_choice_attack("You are about to attack a monster."
                                                       " Would like to use a {spell} or a regular attack {reg} ?"):
                                     # Magic attack
@@ -57,6 +59,7 @@ class Floor:
                                     break
                                 # Else, time to the monster to attack the hero
                                 else:
+                                    print("The monster is not dead yet. It attacks you")
                                     monster.attack(my_hero)
                                     if my_hero.is_dead():
                                         break
@@ -97,25 +100,5 @@ class Floor:
 
 # Clear la console
 def clear_csl():
-    for x in range(30):
+    for x in range(5):
         print("\n")
-
-
-'''
-RESTE DU PRECEDENT CHOIX POUR LE TRADERS
-# Petit truc sympa
-elif choice_buy == "hi i'm here to take everything you have thanks":
-    for i in range(5):
-        my_hero.add_inventory("potion")
-        my_hero.add_inventory("mana potion")
-    print("You action won't have any consequences you are lucky")
-    my_hero.add_gold(50000)
-    # La transaction s'arrête
-    break
-# L'objet n'existe pas
-else:
-    print("I don't understand")
-# Le joueur arrête la transaction
-elif choice_buy == "nothing":
-break
-'''

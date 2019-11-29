@@ -49,7 +49,7 @@ class Fighter(Character, LootsInventory):
 
     def attack(self, other):
         """Performs an attack on an other fighter"""
-        rnd_damage = random.randint(self.min_damage, self.max_damage)
+        rnd_damage = random.randint(self.min_damage, self.max_damage + 1)
         rnd_critical_hit = random.random()*100
 
         if rnd_critical_hit <= self.critical_hit_rate:

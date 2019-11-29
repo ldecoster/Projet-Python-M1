@@ -26,5 +26,6 @@ def launch_game():
             floor += 1
             trader_price += floor + 5
         else:
-            print("Sorry but you died. Thanks for playing ;)")
+            print("Sorry but you died at the floor", floor)
+            print("Thanks for playing ;)")
             break

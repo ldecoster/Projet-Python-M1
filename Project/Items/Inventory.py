@@ -25,8 +25,7 @@ class Inventory:
         """Remove heal or mana potion from the inventory"""
         for index in range(len(self.inventory)):
             self_item = self.inventory[index]
-            if isinstance(self_item, Potion)and self_item.potion_type == potion_type:
+            if isinstance(self_item, Potion) and self_item.potion_type == potion_type:
                 potion = self.inventory.pop(index)
                 return potion
-            else:
-                raise Exception("No potion found")
+        raise Exception("No potion found")

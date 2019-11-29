@@ -7,5 +7,5 @@ class JewelItem(Item):
 
     def display_stats(self):
         print("+++++++++++++++++++++++++++++++++++++++++++++")
-        print("The jewel has for no stats to display")
+        print("The jewel has no stats to display")
         print("+++++++++++++++++++++++++++++++++++++++++++++")
