@@ -11,14 +11,17 @@ def launch_game():
     print("Your name is now : ", my_hero.name.capitalize())
 
     #  Game Settings
-    floor = my_hero.level
+    floor = 1
     trader_price = 20
-    print("floor", floor)
+
     while my_hero.is_dead() is False:
+        print("Floor : ", floor)
         trader = Trader(5, trader_price, 5, trader_price)
 
         Floor(my_hero, floor, trader)
 
+        # Once ce floor is completed, increase the trader price and "Ah shit, here we go again"
+        print("New floor")
         floor += 1
         trader_price += floor + 5
 

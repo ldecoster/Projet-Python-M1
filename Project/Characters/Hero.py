@@ -8,6 +8,9 @@ from Project.Items.Potion import Potion
 from Project.Items.WeaponItem import WeaponItem
 
 
+experience_level = {1: 0, 2: 50, 3: 120, 4: 210, 5: 330, 6: 480, 7: 660, 8: 1000, 9: 1490, 10: 1840}
+
+
 class Hero(Fighter, HeroEquipment, Inventory):
     def __init__(self, gold=100, level=1, life_points=100, max_life_points=100, protection_points=0, dodge_rate=0.0,
                  parry_rate=0.0, critical_hit_rate=0.0, min_damage=1, max_damage=10, name="default", exp_points=0,
@@ -40,6 +43,13 @@ class Hero(Fighter, HeroEquipment, Inventory):
         # Need to sum
         self.total_min_damage = self.min_damage + self.equipment_min_damage
         self.total_max_damage = self.max_damage + self.equipment_max_damage
+
+    def manage_experience_points(self):
+        while self.exp_points > experience_level[self.level + 1]:
+            print("Congratulation, you gained a new level !")
+            self.level += 1
+            print("You are now level", self.level)
+            self.lvl_up()
 
     def gain_mana(self, mana_points):
         """Give back mana_points to the fighter"""
@@ -75,6 +85,9 @@ class Hero(Fighter, HeroEquipment, Inventory):
             else:
                 self.use_potion("mana")
 
+        if user_choice_yes_no("Would you like to see all your stats ? Yes {y} / No {n}"):
+            self.show_stats()
+
     def use_potion(self, potion_type):
         """Use a potion if the hera has one and if his stats are not full"""
         # Heal potion
@@ -107,8 +120,7 @@ class Hero(Fighter, HeroEquipment, Inventory):
 
     def lvl_up(self):
         """Level-up + upgrade of one stat + full heal"""
-        self.level += 1
-        print("Level up ! You are now level : ", self.level, "\n Choose the stat you want to improve")
+        print("Choose the stat you want to improve")
         lvl_up_choice = user_choice_lvl_up("Improve : {lifepoints} / {mana} / {damage}")
         if lvl_up_choice == "lifepoints":
             self.max_life_points += 10
@@ -188,8 +200,7 @@ class Hero(Fighter, HeroEquipment, Inventory):
                 print("Your weapon 1 location is empty")
                 print("The new weapon has the following stats :")
                 item.display_stats()
-                print("Would to equip it ? Yes {y} / No {n}")
-                if user_choice_yes_no():
+                if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
                     self.equip_weapon(item, "weapon_1")
                     print("Weapon equipped")
                 else:
