@@ -1,7 +1,8 @@
 import random
 from Project.Characters.Fighter import Fighter
 from Project.Items.ArmorItem import ArmorItem
-
+from Project.GameRuntime.Texts import *
+from Project.GameRuntime.UserChoice import *
 
 class Initgame:
     # Test map
@@ -33,32 +34,16 @@ class Initgame:
                         print("inventaire : ")
                         my_hero.show_inventory()
                     elif choice == 3:
-                        trader.text()
-                        choice_buy = ""
-                        """Le joueur écrit ce qu'il veut acheter"""
-                        while choice_buy != "nothing":
-                            choice_buy = str(input())
-                            if choice_buy != "nothing":
-                                # On verifie que l'objet existe
-                                if choice_buy == "potion" or choice_buy == "mana potion":
-                                    # Ajout de l'objet dans l'inventaire + retrait argent
-                                    trader.sell_to_hero(choice_buy, my_hero)
-                                    print("Something else ?")
-                                # Petit truc sympas
-                                elif choice_buy == "hi i'm here to take everything you have thanks":
-                                    for i in range(5):
-                                        my_hero.add_inventory("potion")
-                                        my_hero.add_inventory("mana potion")
-                                    print("You action won't have any consequences you are lucky")
-                                    my_hero.add_gold(50000)
-                                    # La transaction s'arrête
-                                    break
-                                # L'objet n'existe pas
-                                else:
-                                    print("I don't understand")
-                            # Le joueur arrête la transaction
-                            elif choice_buy == "nothing":
-                                break
+                        trader_greeting_text()
+                        trader.show_available_potions()
+                        if user_choice_yes_no("Would you want to buy some potions ? Yes {y} / No {n}"):
+                            if user_choice_heal_mana_potion("Which potion ? Heal {heal} / Mana {mana}"):
+                                print("Want to buy a heal potion")
+                                trader.sell_potion(my_hero, "heal")
+                            else:
+                                print("Want to buy a mana potion")
+                                trader.sell_potion(my_hero, "mana")
+
                     # Test ajout item
                     elif choice == 4:
                         # En gros j'explique
@@ -130,3 +115,33 @@ class Initgame:
 def clear_csl():
     for x in range(30):
         print("\n")
+
+
+'''
+RESTE DU PRECEDENT CHOIX POUR LE TRADERS
+choice_buy = ""
+"""Le joueur écrit ce qu'il veut acheter"""
+while choice_buy != "nothing":
+    choice_buy = str(input())
+    if choice_buy != "nothing":
+        # On verifie que l'objet existe
+        if choice_buy == "potion" or choice_buy == "mana potion":
+            # Ajout de l'objet dans l'inventaire + retrait argent
+            trader.sell_to_hero(choice_buy, my_hero)
+            print("Something else ?")
+        # Petit truc sympas
+        elif choice_buy == "hi i'm here to take everything you have thanks":
+            for i in range(5):
+                my_hero.add_inventory("potion")
+                my_hero.add_inventory("mana potion")
+            print("You action won't have any consequences you are lucky")
+            my_hero.add_gold(50000)
+            # La transaction s'arrête
+            break
+        # L'objet n'existe pas
+        else:
+            print("I don't understand")
+    # Le joueur arrête la transaction
+    elif choice_buy == "nothing":
+        break
+'''

@@ -1,29 +1,48 @@
 from Project.Characters.Character import Character
+from Project.Items.Inventory import Inventory
+from Project.Items.Potion import Potion
 
 
-class Trader(Character):
-    def __init__(self, heal_potion_number, mana_potion_number, potion_price):
+class Trader(Character, Inventory, Potion):
+    def __init__(self, heal_potion_number, heal_potion_price,
+                 mana_potion_number, mana_potion_price):
         Character.__init__(self, 999999999)
+        Inventory.__init__(self)
         self.heal_potion_number = heal_potion_number
+        self.heal_potion_price = heal_potion_price
         self.mana_potion_number = mana_potion_number
-        self.potion_price = potion_price
+        self.mana_potion_price = mana_potion_price
+        # Creation of all the potions into the Trader's inventory
+        for i in range(self.heal_potion_number):
+            self.inventory.append(Potion("heal", self.heal_potion_price))
+        for j in range(self.mana_potion_number):
+            self.inventory.append(Potion("mana", self.mana_potion_price))
 
-    def sell_to_hero(self, item, hero):
-        # Add object to the hero's inventory and withdraw the gold amount
-        if hero.gold > self.potion_price:
-            hero.add_inventory(item)
-            hero.withdraw_gold(self.potion_price)
-            print("Thanks !")
+    def sell_potion(self, hero, hero_potion_type_choice):
+        if hero_potion_type_choice == "heal":
+            potion_number = self.heal_potion_number
+            potion_price = self.heal_potion_price
+        elif hero_potion_type_choice == "mana":
+            potion_number = self.heal_potion_number
+            potion_price = self.heal_potion_price
         else:
-            print("Sorry not enough gold !")
+            raise Exception("Error")
 
-    def text(self):
-        print("Welcome in my shop !", "\n", "What do you want to buy ?")
-        print("Everything cost ", self.potion_price)
-        print("I have everything you always wanted to have")
-        print("he's looking away because he only has shitty potions")
-        print("Joking I only have : heal potions, mana potions")
-        print("Do you want to buy some ?")
-        print("Heal potion : ", self.potion_price, "Mana potion : ", self.potion_price, "Nothing : Free of course now "
-                                                                                        "leave")
+        if potion_number > 0:
+            if hero.gold >= potion_price:
+                try:
+                    hero.withdraw_gold(potion_price)
+                    potion = self.remove_potion(hero_potion_type_choice)
+                    hero.add_item(potion)
+                    self.add_gold(potion_price)
+                except Exception as e:
+                    print(str(e))
+            else:
+                print("Sorry, you don't have enough golds")
+        else:
+            print("Sorry, the potion you want have been already sold out")
 
+    def show_available_potions(self):
+        print("I have those following potions : ")
+        print("#", self.heal_potion_number, "heal potion(s) at a price of", self.heal_potion_price, "golds")
+        print("#", self.mana_potion_number, "mana potion(s) at a price of", self.mana_potion_price, "golds")

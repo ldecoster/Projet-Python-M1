@@ -1,36 +1,44 @@
 from Project.Characters.Fighter import Fighter
-from Project.Items.HeroEquipment import HeroEquipment
-from Project.Items.WeaponItem import WeaponItem
-from Project.Items.ArmorItem import ArmorItem
-from Project.Items.JewelItem import JewelItem
-from Project.Items.Consumable import Consumable
 from Project.GameRuntime.UserChoice import *
+from Project.Items.ArmorItem import ArmorItem
+from Project.Items.Inventory import Inventory
+from Project.Items.JewelItem import JewelItem
+from Project.Items.HeroEquipment import HeroEquipment
+from Project.Items.Potion import Potion
+from Project.Items.WeaponItem import WeaponItem
 
 
-class Hero(Fighter, HeroEquipment):
+class Hero(Fighter, HeroEquipment, Inventory):
     def __init__(self, gold, level, life_points, max_life_points, protection_points, dodge_rate, parry_rate,
                  critical_hit_rate, min_damage, max_damage,
                  name, exp_points, mana_points, max_mana_points, total_min_damage, total_max_damage, loots_inventory):
         Fighter.__init__(self, gold, level, life_points, max_life_points, protection_points, dodge_rate, parry_rate,
                          critical_hit_rate, min_damage, max_damage, loots_inventory)
         HeroEquipment.__init__(self)
+        Inventory.__init__(self)
         self.name = name
         self.exp_points = exp_points
         self.mana_points = mana_points
         self.max_mana_points = max_mana_points
-        self.protection_points = self.equipment_protection_points # "Override"
+        self.protection_points = self.equipment_protection_points  # "Override"
         self.total_min_damage = total_min_damage
         self.total_max_damage = total_max_damage
-        self.inventory = ["potion", "potion", "mana potion"]
+        self.loots_inventory = []
 
     def show_stats(self):
         print(vars(self))
 
     def update(self):
         """Update stats"""
-        # just in case
+        # Just in case
         self.update_offensive_stats()
         self.update_defensive_stats()
+        # Need to copy value
+        self.protection_points = self.equipment_protection_points
+        self.dodge_rate = self.equipment_dodge_rate
+        self.parry_rate = self.equipment_parry_rate
+        self.critical_hit_rate = self.equipment_critical_hit_rate
+        # Need to sum
         self.total_min_damage = self.min_damage + self.equipment_min_damage
         self.total_max_damage = self.max_damage + self.equipment_max_damage
 
@@ -50,54 +58,53 @@ class Hero(Fighter, HeroEquipment):
 
     def show_inventory(self):
         """Show content of hero's inventory"""
-        heal_potion = 0
-        mana_potion = 0
+        heal_potion_number = 0
+        mana_potion_number = 0
         # Count number potions
         for item in self.inventory:
-            if item == "potion":
-                heal_potion += 1
-            elif item == "mana potion":
-                mana_potion += 1
-        print("heal potion : ", heal_potion, "mana potion", mana_potion, "gold : ", self.gold)
+            if isinstance(item, Potion):
+                if item.potion_type == "heal":
+                    heal_potion_number += 1
+                elif item.potion_type == "mana":
+                    mana_potion_number += 1
+        print("You have : ", heal_potion_number, "heal potion(s) and ", mana_potion_number, "mana potion(s)")
+        print("You also have", self.gold, "golds")
+
         if user_choice_yes_no("Would you like to use an item ? Yes {y} / No {n}"):
-            # Rajouter test sur la fait qu'il y a bien une potion de disponible
             if user_choice_heal_mana_potion("Which item ? Heal potion {heal} / Mana potion {mana}"):
-                self.use_item("heal potion")
+                self.use_potion("heal")
             else:
-                self.use_item("mana potion")
+                self.use_potion("mana")
 
-    def add_inventory(self, item):
-        # verifier si l'inventaire n'est pas plein (si on met une limite)
-        self.inventory.append(item)
-
-    def remove_inventory(self, item):
-        # verifier que l'item existe dans l'inventaire pas trop utile en soit cette fonction je pense
-        self.inventory.remove(item)
-
-    # Test à rajouter / Fct pas clair
-    def use_item(self, item):
+    def use_potion(self, potion_type):
+        """Use a potion if the hera has one and if his stats are not full"""
         # Heal potion
-        if item == "potion" or item == "item1":
-            # heal function
-            before = self.life_points
-            use = self.heal_life_point(10)
-            print("Life points : ", before, "->", self.life_points)
-            if use is True:
-                self.remove_inventory(item)
+        heal_potion_number, mana_potion_number = self.count_potions()
+        if potion_type == "heal":
+            if heal_potion_number > 0:
+                before = self.life_points
+                can_restore_life_points = self.heal_life_point(10)
+                if can_restore_life_points is True:
+                    print("Your life points changed from", before, "to", self.life_points)
+                    self.remove_potion("heal")
+                else:
+                    print("Potion not used as you already have all your life points")
             else:
-                print("You keep your potion")
+                print("You don't have any heal potion")
         # Mana potion
-        elif item == "mana potion":
-            # mana function
-            before = self.mana_points
-            use = self.gain_mana(5)
-            print("Mana points : ", before, "->", self.mana_points)
-            if use is True:
-                self.remove_inventory(item)
+        elif potion_type == "mana":
+            if mana_potion_number > 0:
+                before = self.mana_points
+                can_restore_mana_points = self.gain_mana(10)
+                if can_restore_mana_points is True:
+                    print("Your mana points changed from", before, "to", self.life_points)
+                    self.remove_potion("mana")
+                else:
+                    print("Potion not used as you already have all your mana points")
             else:
-                print("You keep your potion")
+                print("You don't have any mana potion")
         else:
-            print("Can't use this item")
+            raise Exception("Unknown potion type")
 
     def lvl_up(self):
         """Level-up + upgrade of one stat + full heal"""
@@ -131,8 +138,6 @@ class Hero(Fighter, HeroEquipment):
             loot = self.loots_inventory.pop()
             if isinstance(loot, ArmorItem) or isinstance(loot, WeaponItem) or isinstance(loot, JewelItem):
                 self.deal_with_new_loot(loot)
-            elif isinstance(loot, Consumable):
-                print("Known consumable :", loot.__class__.__name__)
             else:
                 print("Unknown item")
         self.loots_inventory = []

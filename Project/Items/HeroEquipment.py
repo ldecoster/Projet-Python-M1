@@ -76,35 +76,17 @@ class HeroEquipment:
         total_life_point = 0
         total_mana_point = 0
 
-        # faire une petite fonction pour eviter d'avoir une duplication de code 4 if
-        if isinstance(self.helmet, ArmorItem):
-            total_protection_points += self.helmet.protection_points
-            total_dodge_rate += self.helmet.dodge_rate
-            total_life_point += self.helmet.life_point
-            total_mana_point += self.helmet.mana_point
-        if isinstance(self.chestplate, ArmorItem):
-            total_protection_points += self.chestplate.protection_points
-            total_dodge_rate += self.chestplate.dodge_rate
-            total_life_point += self.helmet.life_point
-            total_mana_point += self.helmet.mana_point
-        if isinstance(self.pants, ArmorItem):
-            total_protection_points += self.pants.protection_points
-            total_dodge_rate += self.pants.dodge_rate
-            total_life_point += self.helmet.life_point
-            total_mana_point += self.helmet.mana_point
-        if isinstance(self.boots, ArmorItem):
-            total_protection_points += self.boots.protection_points
-            total_dodge_rate += self.boots.dodge_rate
-            total_life_point += self.helmet.life_point
-            total_mana_point += self.helmet.mana_point
+        armors = [self.helmet, self.chestplate, self.pants, self.boots]
+        for armor in armors:
+            total_protection_points += armor.protection_points
+            total_dodge_rate += armor.dodge_rate
+            total_life_point += armor.life_point
+            total_mana_point += armor.mana_point
 
         self.equipment_protection_points = total_protection_points
         self.equipment_dodge_rate = total_dodge_rate
         self.equipment_life_point = total_life_point
         self.equipment_mana_point = total_mana_point
-        a = self.equipment_life_point + self.equipment_life_point
-        print("Main equipment life : ", a)
-        return self.equipment_life_point, self.equipment_mana_point, self.equipment_dodge_rate, self.equipment_protection_points
 
     def update_offensive_stats(self):
         """Update all total offensives stats with the stats given by the equipment"""
@@ -113,16 +95,12 @@ class HeroEquipment:
         total_min_damage = 0
         total_max_damage = 0
 
-        if isinstance(self.weapon_1, WeaponItem):
-            total_parry_rate += self.weapon_1.parry_rate
-            total_critical_hit_rate += self.weapon_1.critical_hit_rate
-            total_min_damage += self.weapon_1.min_damage
-            total_max_damage += self.weapon_1.max_damage
-        if isinstance(self.weapon_2, WeaponItem):
-            total_parry_rate += self.weapon_2.parry_rate
-            total_critical_hit_rate += self.weapon_2.critical_hit_rate
-            total_min_damage += self.weapon_2.min_damage
-            total_max_damage += self.weapon_2.max_damage
+        weapons = [self.weapon_1, self.weapon_2]
+        for weapon in weapons:
+            total_parry_rate += weapon.parry_rate
+            total_critical_hit_rate += weapon.critical_hit_rate
+            total_min_damage += weapon.min_damage
+            total_max_damage += weapon.max_damage
 
         self.equipment_parry_rate = total_parry_rate
         self.equipment_critical_hit_rate = total_critical_hit_rate

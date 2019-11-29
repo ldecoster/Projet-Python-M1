@@ -4,7 +4,6 @@ class Character:
 
     def add_gold(self, gold):
         """Increase the amount of gold"""
-        print("You gained", gold, "golds")
         self.gold += gold
         return True
 

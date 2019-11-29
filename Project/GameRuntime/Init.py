@@ -36,7 +36,7 @@ def beginning():
                    dodge_rate, parry_rate, critical_hit_rate,
                    min_damage, max_damage, hero_name, exp_points,
                    mana_points, max_mana_points, total_min_damage, total_max_damage, loots_inventory)
-    trader = Trader(5, 5, 20)
+    trader = Trader(5, 20, 5, 20)
 
     pprint(vars(my_hero))
     print("Your name is now : ", my_hero.name)
