@@ -39,8 +39,8 @@ class Floor:
                             monster = Monster(my_hero.level)
                             while True:
                                 print("You have", my_hero.life_points, "life points and", my_hero.mana_points, "mana")
-                                if user_choice_attack("You are about to attack a monster."
-                                                      " Would like to use a {spell} or a regular attack {reg} ?"):
+                                while user_choice_attack("You are about to attack a monster."
+                                                         " Would like to use a {spell} or a regular attack {reg} ?"):
                                     # Magic attack
                                     if user_choice_spell("Which spell to use ? {heal} / {damage}"):
                                         my_hero.magical_spell()
