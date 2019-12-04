@@ -1,18 +1,26 @@
 from TheGoodGameWithADungeon.Characters.Hero import Hero
 from TheGoodGameWithADungeon.GameRuntime.Floor import Floor
 from TheGoodGameWithADungeon.Characters.Trader import Trader
+from TheGoodGameWithADungeon.GameRuntime.UserChoice import *
+from TheGoodGameWithADungeon.GameRuntime.save import *
 
 
 def launch_game():
     print("Hello, welcome to our game.")
-    hero_name = input("Please enter your name : ")
-
-    my_hero = Hero(name=hero_name)
-    print("Your name is now : ", my_hero.name.capitalize())
+    print("Do you want to load a save ?")
+    if user_choice_yes_no("Yes {y} / No {n}"):
+        """Load the save"""
+        my_hero = load_save()
+    else:
+        """Start a new Hero"""
+        hero_name = input("Please enter your name : ")
+        my_hero = Hero(name=hero_name)
+        print("Your name is now : ", my_hero.name.capitalize())
 
     #  Game Settings
     floor = 1
     trader_price = 20
+
 
     while my_hero.is_dead() is False:
         print("Floor : ", floor)
@@ -28,5 +36,5 @@ def launch_game():
             trader_price += floor + 5
         else:
             print("Sorry but you died at the floor", floor)
-            print("Thanks for playing ;)")
+            print("Thanks for playing ;) noob")
             break
