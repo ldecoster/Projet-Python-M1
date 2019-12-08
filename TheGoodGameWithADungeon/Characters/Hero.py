@@ -17,7 +17,7 @@ experience_level = {1: 0, 2: 50, 3: 120, 4: 210, 5: 330, 6: 480, 7: 660, 8: 1000
 
 class Hero(Fighter, HeroEquipment, Inventory, Stats):
     def __init__(self, gold=100, level=1, life_points=100, max_life_points=100, protection_points=0, dodge_rate=0.0,
-                 parry_rate=0.0, critical_hit_rate=0.0, min_damage=1, max_damage=10, name="default", exp_points=99999999999,
+                 parry_rate=0.0, critical_hit_rate=0.0, min_damage=1, max_damage=10, name="default", exp_points=0,
                  mana_points=20, max_mana_points=20, total_min_damage=1, total_max_damage=10, loots_inventory=[]):
         Fighter.__init__(self, gold, level, life_points, max_life_points, protection_points, dodge_rate, parry_rate,
                          critical_hit_rate, min_damage, max_damage, loots_inventory)
