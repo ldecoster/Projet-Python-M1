@@ -7,7 +7,7 @@ class HeroEquipment:
     def __init__(self, helmet=None, chestplate=None, pants=None, boots=None, weapon_1=None, weapon_2=None,
                  jewel_1=None, jewel_2=None, equipment_protection_points=0, equipment_dodge_rate=0.0,
                  equipment_parry_rate=0.0, equipment_critical_hit_rate=0.0,
-                 equipment_min_damage=0, equipment_max_damage=0, equipment_life_point=0, equipment_mana_point=0):
+                 equipment_min_damage=0, equipment_max_damage=0, equipment_life_points=0, equipment_mana_points=0):
         self.helmet = helmet
         self.chestplate = chestplate
         self.pants = pants
@@ -22,8 +22,8 @@ class HeroEquipment:
         self.equipment_critical_hit_rate = equipment_critical_hit_rate
         self.equipment_min_damage = equipment_min_damage
         self.equipment_max_damage = equipment_max_damage
-        self.equipment_life_point = equipment_life_point
-        self.equipment_mana_point = equipment_mana_point
+        self.equipment_life_points = equipment_life_points
+        self.equipment_mana_points = equipment_mana_points
 
     def equip_armor(self, armor):
         """Equip an armor to the hero"""
@@ -85,9 +85,9 @@ class HeroEquipment:
                 total_mana_point += armor.mana_point
 
         self.equipment_protection_points = total_protection_points
-        self.equipment_dodge_rate = total_dodge_rate
-        self.equipment_life_point = total_life_point
-        self.equipment_mana_point = total_mana_point
+        self.equipment_dodge_rate = round(total_dodge_rate, 2)
+        self.equipment_life_points = total_life_point
+        self.equipment_mana_points = total_mana_point
 
     def update_offensive_stats(self):
         """Update all total offensives stats with the stats given by the equipment"""
@@ -104,7 +104,7 @@ class HeroEquipment:
                 total_min_damage += weapon.min_damage
                 total_max_damage += weapon.max_damage
 
-        self.equipment_parry_rate = total_parry_rate
-        self.equipment_critical_hit_rate = total_critical_hit_rate
+        self.equipment_parry_rate = round(total_parry_rate, 2)
+        self.equipment_critical_hit_rate = round(total_critical_hit_rate, 2)
         self.equipment_min_damage = total_min_damage
         self.equipment_max_damage = total_max_damage

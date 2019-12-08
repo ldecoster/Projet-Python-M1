@@ -17,10 +17,11 @@ experience_level = {1: 0, 2: 50, 3: 120, 4: 210, 5: 330, 6: 480, 7: 660, 8: 1000
 
 class Hero(Fighter, HeroEquipment, Inventory, Stats):
     def __init__(self, gold=100, level=1, life_points=100, max_life_points=100, protection_points=0, dodge_rate=0.0,
-                 parry_rate=0.0, critical_hit_rate=0.0, min_damage=1, max_damage=10, name="default", exp_points=0,
-                 mana_points=20, max_mana_points=20, total_min_damage=1, total_max_damage=10, loots_inventory=[]):
-        Fighter.__init__(self, gold, level, life_points, max_life_points, protection_points, dodge_rate, parry_rate,
-                         critical_hit_rate, min_damage, max_damage, loots_inventory)
+                 parry_rate=0.0, critical_hit_rate=0.0, min_damage=0, max_damage=0, loots_inventory=[],
+                 name="default", exp_points=0, mana_points=20, max_mana_points=20,
+                 hero_min_damage=1, hero_max_damage=10):
+        Fighter.__init__(self, gold, level, life_points, max_life_points, protection_points, dodge_rate,
+                         parry_rate, critical_hit_rate, min_damage, max_damage, loots_inventory)
         HeroEquipment.__init__(self)
         Inventory.__init__(self)
         Stats.__init__(self)
@@ -29,26 +30,51 @@ class Hero(Fighter, HeroEquipment, Inventory, Stats):
         self.exp_points = exp_points
         self.mana_points = mana_points
         self.max_mana_points = max_mana_points
-        self.protection_points = self.equipment_protection_points  # "Override"
-        self.total_min_damage = total_min_damage
-        self.total_max_damage = total_max_damage
+        self.hero_min_damage = hero_min_damage
+        self.hero_max_damage = hero_max_damage
+        self.default_life_points = self.max_life_points
+        self.default_mana_points = self.max_mana_points
+
+        self.update()
 
     def show_stats(self):
-        print(vars(self))
+        print("- Life points :", self.life_points)
+        print("- Max life points :", self.max_life_points)
+        print("- Mana points :", self.mana_points)
+        print("- Max mana points :", self.max_mana_points)
+        print("- Protection points :", self.protection_points)
+        print("- Dodge rate :", self.dodge_rate)
+        print("- Parry rate :", self.parry_rate)
+        print("- Critical hit rate :", self.critical_hit_rate)
+        print("- Min damage :", self.min_damage)
+        print("- Hero min damage :", self.hero_min_damage)
+        print("- Equipment min damage :", self.equipment_min_damage)
+        print("- Max damage :", self.max_damage)
+        print("- Hero max damage :", self.hero_max_damage)
+        print("- Equipment max damage :", self.equipment_max_damage)
 
     def update(self):
         """Update stats"""
-        # Just in case
+        # Compute the difference of stats
+        old_equipment_life_points = self.equipment_life_points
+        old_equipment_mana_points = self.equipment_mana_points
         self.update_offensive_stats()
         self.update_defensive_stats()
-        # Need to copy value
+        new_equipment_life_points = self.equipment_life_points
+        new_equipment_mana_points = self.equipment_mana_points
+        actual_equipment_life_points = old_equipment_life_points - \
+                                       (old_equipment_life_points - new_equipment_life_points)
+        actual_equipment_mana_points = old_equipment_mana_points - \
+                                       (old_equipment_mana_points - new_equipment_mana_points)
+        self.max_life_points = self.default_life_points + actual_equipment_life_points
+        self.max_mana_points = self.default_mana_points + actual_equipment_mana_points
+
         self.protection_points = self.equipment_protection_points
         self.dodge_rate = self.equipment_dodge_rate
         self.parry_rate = self.equipment_parry_rate
         self.critical_hit_rate = self.equipment_critical_hit_rate
-        # Need to sum
-        self.total_min_damage = self.min_damage + self.equipment_min_damage
-        self.total_max_damage = self.max_damage + self.equipment_max_damage
+        self.min_damage = self.hero_min_damage + self.equipment_min_damage
+        self.max_damage = self.hero_max_damage + self.equipment_max_damage
 
     def manage_experience_points(self):
         """Increase the hero's level if he has enough experience points"""
@@ -312,3 +338,5 @@ class Hero(Fighter, HeroEquipment, Inventory, Stats):
                     print("Jewel equipped")
                 else:
                     print("Jewel not equipped")
+
+        self.update()
