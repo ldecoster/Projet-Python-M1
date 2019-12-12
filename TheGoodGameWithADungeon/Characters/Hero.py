@@ -2,6 +2,7 @@ import random
 from TheGoodGameWithADungeon.Characters.Fighter import Fighter
 from TheGoodGameWithADungeon.Characters.Monster import Monster
 from TheGoodGameWithADungeon.GameRuntime.Stats import Stats
+from TheGoodGameWithADungeon.GameRuntime.Texts import *
 from TheGoodGameWithADungeon.GameRuntime.UserChoice import *
 from TheGoodGameWithADungeon.Items.ArmorItem import ArmorItem
 from TheGoodGameWithADungeon.Items.Inventory import Inventory
@@ -38,20 +39,9 @@ class Hero(Fighter, HeroEquipment, Inventory, Stats):
         self.update()
 
     def show_stats(self):
-        print("- Life points :", self.life_points)
-        print("- Max life points :", self.max_life_points)
-        print("- Mana points :", self.mana_points)
-        print("- Max mana points :", self.max_mana_points)
-        print("- Protection points :", self.protection_points)
-        print("- Dodge rate :", self.dodge_rate)
-        print("- Parry rate :", self.parry_rate)
-        print("- Critical hit rate :", self.critical_hit_rate)
-        print("- Min damage :", self.min_damage)
-        print("- Hero min damage :", self.hero_min_damage)
-        print("- Equipment min damage :", self.equipment_min_damage)
-        print("- Max damage :", self.max_damage)
-        print("- Hero max damage :", self.hero_max_damage)
-        print("- Equipment max damage :", self.equipment_max_damage)
+        hero_show_stats_text(self.life_points, self.max_life_points, self.mana_points, self.max_mana_points,
+                             self.protection_points, self.dodge_rate, self.parry_rate, self.critical_hit_rate,
+                             self.min_damage, self.max_damage)
 
     def update(self):
         """Update stats"""
@@ -80,17 +70,16 @@ class Hero(Fighter, HeroEquipment, Inventory, Stats):
         """Increase the hero's level if he has enough experience points"""
         # If the max level is already reached, do nothing
         if self.level == max_level:
-            print("You already reached the max level")
+            hero_max_level_text()
         # Else level-up
         else:
             while self.exp_points > experience_level[self.level + 1]:
-                print("*** Congratulation, you gained a new level ! ***")
                 self.level += 1
-                print("You are now level", self.level)
+                hero_new_level_text(self.level)
                 self.lvl_up()
                 # Check the case where max level is reached and then break
                 if self.level == max_level:
-                    print("You have reached the max level")
+                    hero_max_level_text()
                     break
 
     def gain_experience(self, experience_points):
@@ -102,7 +91,7 @@ class Hero(Fighter, HeroEquipment, Inventory, Stats):
         """Give back mana_points to the fighter"""
         # Limit of mana_points already reached
         if self.mana_points == self.max_mana_points:
-            print("Nothing happened. You already have all your mana")
+            hero_all_mana_points_text()
             return False
         # Restore mana
         else:
@@ -124,8 +113,7 @@ class Hero(Fighter, HeroEquipment, Inventory, Stats):
                     heal_potion_number += 1
                 elif item.potion_type == "mana":
                     mana_potion_number += 1
-        print("You have : ", heal_potion_number, "heal potion(s) and ", mana_potion_number, "mana potion(s)")
-        print("You also have", self.gold, "golds")
+        hero_inventory_text(heal_potion_number, mana_potion_number, self.gold)
 
         if user_choice_yes_no("Would you like to use an item ? Yes {y} / No {n}"):
             if user_choice_heal_mana_potion("Which item ? Heal potion {heal} / Mana potion {mana}"):
@@ -145,26 +133,26 @@ class Hero(Fighter, HeroEquipment, Inventory, Stats):
                 before = self.life_points
                 can_restore_life_points = self.heal_life_point(10)
                 if can_restore_life_points is True:
-                    print("Your life points changed from", before, "to", self.life_points)
+                    hero_life_points_change_text(before, self.life_points)
                     self.remove_potion("heal")
                     self.heal_potions_used_number += 1  # stats
                 else:
-                    print("Potion not used as you already have all your life points")
+                    hero_no_use_heal_potion_text()
             else:
-                print("You don't have any heal potion")
+                hero_no_heal_potion_text()
         # Mana potion
         elif potion_type == "mana":
             if mana_potion_number > 0:
                 before = self.mana_points
                 can_restore_mana_points = self.gain_mana(10)
                 if can_restore_mana_points is True:
-                    print("Your mana points changed from", before, "to", self.life_points)
+                    hero_mana_points_change_text(before, self.mana_points)
                     self.remove_potion("mana")
                     self.mana_potions_used_number += 1  # stats
                 else:
-                    print("Potion not used as you already have all your mana points")
+                    hero_no_use_mana_potion_text()
             else:
-                print("You don't have any mana potion")
+                hero_no_mana_potion_text()
         else:
             raise Exception("Unknown potion type")
 
@@ -174,37 +162,36 @@ class Hero(Fighter, HeroEquipment, Inventory, Stats):
             if target is None:
                 """Heal"""
                 self.heal_life_point(int(self.max_life_points * 0.2))
-                print("You regained some health. You now have", self.life_points, "life points")
+                hero_life_regained_text(self.life_points)
             elif isinstance(target, Monster):
                 """Magic attack"""
-                print("Magic attack performed against the monster")
+                hero_magic_attack_text()
                 rnd_damage = random.randint(self.level*3, self.level*5)
                 target.loose_life_points(rnd_damage)
                 self.attack(target)  # An regular attack is also performed
             else:
-                print("Spell failed")
+                hero_spell_failed_text()
             self.mana_points -= 5
             self.mana_consummed += 5  # stats
             self.spells_performed_number += 1  # stats
-            print("Mana point after the spell", self.mana_points)
+            hero_mana_points_after_spell_text(self.mana_points)
         else:
-            print("Not enough mana to perform a spell. Doing a regular attack instead")
+            hero_not_enough_mana_text()
 
     def lvl_up(self):
         """Level-up + upgrade of one stat + full heal"""
-        print("Choose the stat you want to improve")
+        hero_improve_stat_text()
         lvl_up_choice = user_choice_lvl_up("Improve : {lifepoints} / {mana} / {damage}")
         if lvl_up_choice == "lifepoints":
             self.max_life_points += 10
-            print("Maximum life points : ", self.max_life_points - 10, "->", self.max_life_points)
+            hero_lvl_up_life_points_text(self.max_life_points)
         elif lvl_up_choice == "mana":
             self.max_mana_points += 5
-            print("Maximum mana points : ", self.max_mana_points - 5, "->", self.max_mana_points)
+            hero_lvl_up_mana_points_text(self.max_mana_points)
         elif lvl_up_choice == "damage":
-            self.total_min_damage += 3
-            self.total_max_damage += 3
-            print("Damage : ", self.total_min_damage - 3, "-", self.total_max_damage - 3, "->", self.total_min_damage,
-                  "-", self.total_max_damage)
+            self.hero_min_damage += 3
+            self.hero_max_damage += 3
+            hero_lvl_up_damage_text(self.hero_min_damage, self.hero_max_damage)
         else:
             raise Exception("Error : Unhandled case")
         self.life_points = self.max_life_points
@@ -213,7 +200,7 @@ class Hero(Fighter, HeroEquipment, Inventory, Stats):
     def receive_loots(self, loots):
         """Get the loots obtained from a monster"""
         self.loots_inventory = loots
-        print("New loots received : ")
+        hero_new_loots_text()
         self.loop_through_loots()
 
     def loop_through_loots(self):
@@ -223,14 +210,14 @@ class Hero(Fighter, HeroEquipment, Inventory, Stats):
             if isinstance(loot, ArmorItem) or isinstance(loot, WeaponItem) or isinstance(loot, JewelItem):
                 self.deal_with_new_loot(loot)
             else:
-                print("Unknown item")
+                hero_unknown_item_text()
         # Reset loots_inventory in the easiest way
         self.loots_inventory = []
 
     def deal_with_new_loot(self, item):
         """Handle case depending on the nature of the item"""
         if isinstance(item, ArmorItem):
-            print("You found a new", item.armor_type)
+            hero_new_armor_found(item.armor_type)
             if item.armor_type == "helmet":
                 self_item = self.helmet
             elif item.armor_type == "chestplate":
@@ -244,99 +231,93 @@ class Hero(Fighter, HeroEquipment, Inventory, Stats):
 
             # If no item is already equipped in its location
             if self_item is None:
-                print("You currently have no", item.armor_type)
-                print("The new one has the following stats :")
+                hero_new_no_armor_text(item.armor_type)
                 item.display_stats()
                 if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
                     self.equip_armor(item)
-                    print(item.armor_type, "equipped")
+                    hero_item_equipped_text(item.armor_type)
                 else:
-                    print(item.armor_type, "not equipped")
+                    hero_item_not_equipped_text(item.armor_type)
             # Else we have to ask the user if he wants to replace it
             else:
-                print("You already have an equipped", item.armor_type)
-                print("Its current stats are :")
+                hero_new_exists_armor_text(item.armor_type)
                 self_item.display_stats()
-                print("The new", item.armor_type, "has the following stats :")
+                hero_new_armor_text(item.armor_type)
                 item.display_stats()
                 if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
                     self.equip_armor(item)
-                    print(item.armor_type, "equipped")
+                    hero_item_equipped_text(item.armor_type)
                 else:
-                    print(item.armor_type, "not equipped")
+                    hero_item_not_equipped_text(item.armor_type)
 
         elif isinstance(item, WeaponItem):
-            print("You found a new weapon")
+            hero_new_weapon_found_text()
             if self.weapon_1 is None:
-                print("Your weapon 1 location is empty")
-                print("The new weapon has the following stats :")
+                hero_weapon_1_empty_text()
                 item.display_stats()
                 if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
                     self.equip_weapon(item, "weapon_1")
-                    print("Weapon equipped")
+                    hero_weapon_equipped_text()
                 else:
-                    print("Weapon not equipped")
+                    hero_weapon_not_equipped_text()
             elif self.weapon_2 is None:
-                print("Your weapon 2 location is empty")
-                print("The new weapon has the following stats :")
+                hero_weapon_2_empty_text()
                 item.display_stats()
                 if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
                     self.equip_weapon(item, "weapon_2")
-                    print("Weapon equipped")
+                    hero_weapon_equipped_text()
                 else:
-                    print("Weapon not equipped")
+                    hero_weapon_not_equipped_text()
             else:
-                print("Both weapon 1 and 2 location are not empty")
-                print("Weapon 1 current stats are :")
+                hero_weapons_not_empty_text()
+                hero_weapon_1_stats_text()
                 self.weapon_1.display_stats()
-                print("Weapon 2 current stats are :")
+                hero_weapon_2_stats_text()
                 self.weapon_2.display_stats()
-                print("The new weapon has the following stats :")
+                hero_new_weapon_stats_text()
                 item.display_stats()
                 if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
                     if user_choice_1_2("Now, where would like to equip it ? Weapon 1 {1} / Weapon 2 {2}"):
                         self.equip_weapon(item, "weapon_1")
                     else:
                         self.equip_weapon(item, "weapon_2")
-                    print("Weapon equipped")
+                    hero_weapon_equipped_text()
                 else:
-                    print("Weapon not equipped")
+                    hero_weapon_not_equipped_text()
 
         elif isinstance(item, JewelItem):
-            print("You found a new jewel")
+            hero_new_jewel_found_text()
             if self.jewel_1 is None:
-                print("Your jewel 1 location is empty")
-                print("The new jewel has the following stats :")
+                hero_jewel_1_empty_text()
                 item.display_stats()
                 if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
                     self.equip_jewel(item, "jewel_1")
-                    print("Jewel equipped")
+                    hero_jewel_equipped_text()
                 else:
-                    print("Jewel not equipped")
+                    hero_jewel_not_equipped_text()
             elif self.jewel_2 is None:
-                print("Your jewel 2 location is empty")
-                print("The new jewel has the following stats :")
+                hero_jewel_2_empty_text()
                 item.display_stats()
                 if user_choice_yes_no("Would to equip it ? Yes {y} / No {n}"):
                     self.equip_jewel(item, "jewel_2")
-                    print("Jewel equipped")
+                    hero_jewel_equipped_text()
                 else:
-                    print("Jewel not equipped")
+                    hero_jewel_not_equipped_text()
             else:
-                print("Both jewel 1 and 2 location are not empty")
-                print("Jewel 1 current stats are :")
+                hero_jewels_not_empty_text()
+                hero_jewel_1_stats_text()
                 self.jewel_1.display_stats()
-                print("Jewel 2 current stats are :")
+                hero_jewel_2_stats_text()
                 self.jewel_2.display_stats()
-                print("The new weapon has the following stats :")
+                hero_new_jewel_stats_text()
                 item.display_stats()
                 if user_choice_yes_no("Would to equip the new one ? Yes {y} / No {n}"):
                     if user_choice_1_2("Where would you like to equipt it ? Weapon 1 {1} / Weapon 2 {2}"):
                         self.equip_jewel(item, "weapon_1")
                     else:
                         self.equip_jewel(item, "weapon_2")
-                    print("Jewel equipped")
+                    hero_jewel_equipped_text()
                 else:
-                    print("Jewel not equipped")
+                    hero_jewel_not_equipped_text()
 
         self.update()

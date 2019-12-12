@@ -10,9 +10,11 @@ class WeaponItem(Item):
         self.max_damage = max_damage
 
     def display_stats(self):
-        print("+++++++++++++++++++++++++++++++++++++++++++++")
-        print("The weapon minimum damages are :", self.min_damage)
-        print("The weapon maximum damages are :", self.max_damage)
-        print("The weapon give", self.parry_rate, "% chance to parry an attack")
-        print("The weapon give", self.critical_hit_rate, "% chance to inflict a critical hit")
-        print("+++++++++++++++++++++++++++++++++++++++++++++")
+        print("""
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        The weapon minimum damages are {}
+        The weapon maximum damages are {}
+        The weapon gives {} % chance to parry an attack
+        The weapon gives {} % chance to inflict a critical hit
+        ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        """.format(self.min_damage, self.max_damage, self.parry_rate, self.critical_hit_rate))

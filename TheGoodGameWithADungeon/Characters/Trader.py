@@ -1,4 +1,5 @@
 from TheGoodGameWithADungeon.Characters.Character import Character
+from TheGoodGameWithADungeon.GameRuntime.Texts import *
 from TheGoodGameWithADungeon.Items.Inventory import Inventory
 from TheGoodGameWithADungeon.Items.Potion import Potion
 
@@ -43,12 +44,11 @@ class Trader(Character, Inventory, Potion):
                 except Exception as e:
                     print(str(e))
             else:
-                print("Sorry, you don't have enough golds")
+                trader_not_enough_gold_text()
         else:
-            print("Sorry, the potion you want have already been sold out")
+            trader_no_more_potions_text()
 
     def show_available_potions(self):
         """Print which potions the trader has to sell"""
-        print("I have those following potions : ")
-        print("#", self.heal_potion_number, "heal potion(s) at a price of", self.heal_potion_price, "golds")
-        print("#", self.mana_potion_number, "mana potion(s) at a price of", self.mana_potion_price, "golds")
+        trader_potions_availability(self.heal_potion_number, self.heal_potion_price,
+                                    self.mana_potion_number, self.mana_potion_price)

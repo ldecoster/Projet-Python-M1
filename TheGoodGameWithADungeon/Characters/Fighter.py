@@ -1,4 +1,5 @@
 from TheGoodGameWithADungeon.Characters.Character import Character
+from TheGoodGameWithADungeon.GameRuntime.Texts import *
 from TheGoodGameWithADungeon.Items.LootsInventory import LootsInventory
 import random
 
@@ -33,7 +34,7 @@ class Fighter(Character, LootsInventory):
         """Give back life_points to the fighter"""
         # Limit of life_points already reached
         if self.life_points == self.max_life_points:
-            print("Nothing happened. You already have all your life points")
+            fighter_all_life_points_text()
             return False
         # Heal the fighter
         else:

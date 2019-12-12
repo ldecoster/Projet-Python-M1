@@ -11,10 +11,12 @@ class ArmorItem(Item):
         self.mana_point = mana_points
 
     def display_stats(self):
-        print("+++++++++++++++++++++++++++++++++++++++++++++")
-        print("The armor is :", self.armor_type)
-        print("The armor has", self.protection_points, "protections points")
-        print("The armor has", self.dodge_rate, "% chance to dodge an attack")
-        print("The armor give", self.life_point, "Life points")
-        print("The armor give", self.mana_point, "Mana points")
-        print("+++++++++++++++++++++++++++++++++++++++++++++")
+        print("""
+        ++++++++++++++++++++++++++++++++++++++++++++++++
+        The armor is {}
+        The armor has {} protections points
+        The armor has {} "% chance to dodge an attack
+        The armor gives {} life points
+        The armor gives {} mana points
+        ++++++++++++++++++++++++++++++++++++++++++++++++
+        """.format(self.armor_type, self.protection_points, self.dodge_rate, self.life_point, self.mana_point))

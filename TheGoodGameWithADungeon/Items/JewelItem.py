@@ -6,6 +6,8 @@ class JewelItem(Item):
         super().__init__(level)
 
     def display_stats(self):
-        print("+++++++++++++++++++++++++++++++++++++++++++++")
-        print("The jewel has no stats to display")
-        print("+++++++++++++++++++++++++++++++++++++++++++++")
+        print("""
+        +++++++++++++++++++++++++++++++++++++++++++++
+        The jewel has no stats to display
+        +++++++++++++++++++++++++++++++++++++++++++++
+        """)

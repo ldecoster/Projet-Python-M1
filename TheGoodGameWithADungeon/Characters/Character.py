@@ -10,7 +10,9 @@ class Character:
     def withdraw_gold(self, gold):
         """Decrease the amount of gold if it's possible"""
         if self.gold - gold >= 0:
-            print("You lost", gold, "golds")
+            print("""
+            You lost {} golds
+            """.format(gold))
             self.gold -= gold
             return True
         else:

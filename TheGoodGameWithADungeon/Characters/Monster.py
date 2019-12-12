@@ -1,6 +1,7 @@
 import random
-from TheGoodGameWithADungeon.Items.RandomItem import RandomItem
 from TheGoodGameWithADungeon.Characters.Fighter import Fighter
+from TheGoodGameWithADungeon.GameRuntime.Texts import *
+from TheGoodGameWithADungeon.Items.RandomItem import RandomItem
 
 
 class Monster(Fighter):
@@ -19,14 +20,14 @@ class Monster(Fighter):
         Fighter.__init__(self, gold, level, life_points, max_life_points, protection_points, dodge_rate, parry_rate,
                          critical_hit_rate, min_damage, max_damage, loots_inventory)
         # Generation of loots
-        rnd = random.randint(1, 3)
+        rnd = random.randint(1, 2)
         for i in range(rnd):
             self.loots_inventory.append(RandomItem(self.level).item)
 
     def has_been_killed(self, hero):
         """Check if the monster is dead or not. If so, loot the stuff"""
         if self.is_dead():
-            print("Monster killed !")
+            monster_killed_text()
             hero.loots_inventory = self.loots_inventory
             hero.add_gold(self.gold)
             hero.receive_loots(self.loots_inventory)
