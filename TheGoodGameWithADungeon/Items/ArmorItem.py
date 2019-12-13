@@ -15,7 +15,7 @@ class ArmorItem(Item):
         ++++++++++++++++++++++++++++++++++++++++++++++++
         The armor is {}
         The armor has {} protections points
-        The armor has {} "% chance to dodge an attack
+        The armor has {} % chance to dodge an attack
         The armor gives {} life points
         The armor gives {} mana points
         ++++++++++++++++++++++++++++++++++++++++++++++++

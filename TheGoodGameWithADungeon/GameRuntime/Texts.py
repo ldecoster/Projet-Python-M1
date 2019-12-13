@@ -100,7 +100,7 @@ def trader_not_enough_gold_text():
 
 def trader_no_more_potions_text():
     print("""
-    Sorry, the potion you want have already been sold out
+    Sorry, the potion you want has already been sold out
     """)
 
 
@@ -141,6 +141,7 @@ def hero_all_mana_points_text():
     print("""
     Nothing happened. You already have all your mana
     """)
+
 
 def hero_life_points_change_text(before, after):
     print("""
@@ -224,13 +225,13 @@ def hero_improve_stat_text():
 def hero_lvl_up_life_points_text(max_life_points):
     print("""
     Maximum life points : {} -> {})
-    """.format(max_life_points-10, max_life_points))
+    """.format(max_life_points - 10, max_life_points))
 
 
 def hero_lvl_up_mana_points_text(max_mana_points):
     print("""
     Maximum mana points : {} -> {})
-    """.format(max_mana_points-10, max_mana_points))
+    """.format(max_mana_points - 10, max_mana_points))
 
 
 def hero_lvl_up_damage_text(total_min_damage, total_max_damage):
@@ -414,5 +415,5 @@ def hero_show_stats_text(life_points, max_life_points, mana_points, max_mana_poi
     - Critical hit rate : {}
     - Min damage : {}
     - Max damage : {}
-     """.format(life_points, max_life_points, mana_points, max_mana_points, protection_points, dodge_rate, parry_rate,
-                critical_hit_rate, min_damage, max_damage))
+    """.format(life_points, max_life_points, mana_points, max_mana_points, protection_points, dodge_rate, parry_rate,
+               critical_hit_rate, min_damage, max_damage))

@@ -28,8 +28,8 @@ class Trader(Character, Inventory, Potion):
             potion_number = self.heal_potion_number
             potion_price = self.heal_potion_price
         elif hero_potion_type_choice == "mana":
-            potion_number = self.heal_potion_number
-            potion_price = self.heal_potion_price
+            potion_number = self.mana_potion_number
+            potion_price = self.mana_potion_price
         else:
             raise Exception("Error")
 
