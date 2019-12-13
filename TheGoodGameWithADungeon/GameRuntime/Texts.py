@@ -206,7 +206,7 @@ def hero_spell_failed_text():
 
 def hero_mana_points_after_spell_text(mana_points):
     print("""
-    Mana points after the spell
+    Mana points after the spell {}
     """.format(mana_points))
 
 
