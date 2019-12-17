@@ -58,13 +58,13 @@ def nothing_text():
 
 def points_text(life_points, mana_points):
     print("""
-    You have {} life points and {} mana
+    You have {} life points and {} mana points
     """.format(life_points, mana_points))
 
 
 def life_remains_text(life_points):
     print("""
-    You still have {} after the fight
+    You still have {} life points after the fight
     """.format(life_points))
 
 
@@ -206,7 +206,7 @@ def hero_spell_failed_text():
 
 def hero_mana_points_after_spell_text(mana_points):
     print("""
-    Mana points after the spell
+    Mana points after the spell {}
     """.format(mana_points))
 
 
